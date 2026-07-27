@@ -1,15 +1,41 @@
 -- ==============================================================================
--- BIN MISAL TRAVELS - PRODUCTION SEED DATA
--- Seed File: Initial Saudi Arabia Branches, Users, Inquiries, and Knowledge Base
+-- BIN MISAL TRAVELS - PRODUCTION & DEMO SEED SCRIPT
+-- Database: PostgreSQL 15+ / Supabase
+-- Description: Inserts structured test data for Branches, Users (Staff), and Inquiries
 -- ==============================================================================
+
+BEGIN;
 
 -- 1. SEED BRANCHES
 INSERT INTO public.branches (id, name, city, phone, whatsapp_number, google_maps_url, status)
 VALUES
-    ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'Riyadh Batha Head Office', 'Riyadh', '+966114012345', '+966501112233', 'https://maps.google.com/?q=24.6333,46.7167', 'active'),
-    ('b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a22', 'Dammam Regional Branch', 'Dammam', '+966138012345', '+966502223344', 'https://maps.google.com/?q=26.4207,50.0888', 'active'),
-    ('c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a33', 'Madinah Central Branch', 'Madinah', '+966148012345', '+966503334455', 'https://maps.google.com/?q=24.4672,39.6112', 'active'),
-    ('d0eebc99-9c0b-4ef8-bb6d-6bb9bd380a44', 'Jeddah Al-Balad Branch', 'Jeddah', '+966126012345', '+966504445566', 'https://maps.google.com/?q=21.4858,39.1925', 'active')
+    (
+        'a1111111-1111-4111-a111-111111111111',
+        'Riyadh Batha Main Branch',
+        'Riyadh',
+        '+966500000001',
+        '+966500000001',
+        'https://maps.google.com/?q=Batha+Commercial+Center+Riyadh',
+        'active'
+    ),
+    (
+        'b2222222-2222-4222-b222-222222222222',
+        'Dammam City Branch',
+        'Dammam',
+        '+966500000002',
+        '+966500000002',
+        'https://maps.google.com/?q=King+Fahd+Street+Dammam',
+        'active'
+    ),
+    (
+        'c3333333-3333-4333-c333-333333333333',
+        'Madinah Central Branch',
+        'Madinah',
+        '+966500000003',
+        '+966500000003',
+        'https://maps.google.com/?q=Near+Prophets+Mosque+Madinah',
+        'active'
+    )
 ON CONFLICT (id) DO UPDATE SET
     name = EXCLUDED.name,
     city = EXCLUDED.city,
@@ -18,38 +44,167 @@ ON CONFLICT (id) DO UPDATE SET
     google_maps_url = EXCLUDED.google_maps_url,
     status = EXCLUDED.status;
 
--- 2. SEED KNOWLEDGE BASE
-INSERT INTO public.knowledge_base (id, category, title, content, tags)
+
+-- 2. SEED USERS / STAFF DATA
+-- 2.1 Insert into auth.users (Supabase Auth schema dependency)
+INSERT INTO auth.users (
+    instance_id, id, aud, role, email, encrypted_password, email_confirmed_at,
+    raw_app_meta_data, raw_user_meta_data, created_at, updated_at
+)
 VALUES
     (
-        'e0eebc99-9c0b-4ef8-bb6d-6bb9bd380a55',
-        'Umrah Requirements',
-        '2026 Umrah Visa Guidelines for Expatriates',
-        'Requirements for Umrah visa issuance in Saudi Arabia: 1. Valid Iqama (minimum 3 months validity). 2. Nusuk app registration for Rawdah permit. 3. Confirmed hotel booking in Makkah & Madinah. 4. Return flight reservation.',
-        ARRAY['umrah', 'visa', 'iqama', 'nusuk']
+        '00000000-0000-0000-0000-000000000000',
+        'd4444444-4444-4444-d444-444444444444',
+        'authenticated',
+        'authenticated',
+        'injamul@binmisal.com',
+        crypt('AdminPassword123!', gen_salt('bf')),
+        NOW(),
+        '{"provider":"email","providers":["email"]}',
+        '{"full_name":"Injamul Hoque"}',
+        NOW(),
+        NOW()
     ),
     (
-        'f0eebc99-9c0b-4ef8-bb6d-6bb9bd380a66',
-        'Business Services',
-        'MISA Investor License Processing Flow',
-        'Steps for foreign investors to obtain a Ministry of Investment (MISA) license in Saudi Arabia: 1. Commercial Registration from home country notarized by Saudi Embassy. 2. Financial statements for past fiscal year. 3. Article of Association draft. 4. Application submission via MISA portal.',
-        ARRAY['misa', 'investor', 'business', 'cr', 'qiwa']
+        '00000000-0000-0000-0000-000000000000',
+        'e5555555-5555-4555-e555-555555555555',
+        'authenticated',
+        'authenticated',
+        'rafiqul.riyadh@binmisal.com',
+        crypt('ManagerPassword123!', gen_salt('bf')),
+        NOW(),
+        '{"provider":"email","providers":["email"]}',
+        '{"full_name":"Rafiqul Islam"}',
+        NOW(),
+        NOW()
     ),
     (
-        '11eebc99-9c0b-4ef8-bb6d-6bb9bd380a77',
-        'Government Services',
-        'Qiwa & Amel Labor Transfer Resolution Process',
-        'Resolution matrix for Qiwa labor transfer issues: Verify Nitaqat status, check pending labor court cases, ensure no existing contract violations, and submit request through the Ministry of Human Resources portal.',
-        ARRAY['qiwa', 'amel', 'labor', 'nitaqat', 'hrsd']
+        '00000000-0000-0000-0000-000000000000',
+        'f6666666-6666-4666-f666-666666666666',
+        'authenticated',
+        'authenticated',
+        'tariqul.dammam@binmisal.com',
+        crypt('AgentPassword123!', gen_salt('bf')),
+        NOW(),
+        '{"provider":"email","providers":["email"]}',
+        '{"full_name":"Tariqul Anam"}',
+        NOW(),
+        NOW()
+    ),
+    (
+        '00000000-0000-0000-0000-000000000000',
+        '07777777-7777-4777-a777-777777777777',
+        'authenticated',
+        'authenticated',
+        'shakil.madinah@binmisal.com',
+        crypt('AgentPassword123!', gen_salt('bf')),
+        NOW(),
+        '{"provider":"email","providers":["email"]}',
+        '{"full_name":"Shakil Ahmed"}',
+        NOW(),
+        NOW()
     )
 ON CONFLICT (id) DO NOTHING;
 
--- 3. SEED INITIAL SAMPLE INQUIRIES
-INSERT INTO public.inquiries (tracking_code, client_name, client_phone, service_category, status, preferred_branch_id, notes)
+-- 2.2 Insert into public.users (Application profiles linked to auth.users)
+INSERT INTO public.users (id, full_name, email, phone, role, branch_id, active_status)
 VALUES
-    ('100001', 'Mohammed Al-Otaibi', '+966551234567', 'Umrah', 'New', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'Family Umrah package inquiry for 5 adults starting next Friday.'),
-    ('100002', 'Tariq Rahman', '+966569876543', 'MISA Investor License', 'Processing', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'Client wants consultation on 100% foreign ownership company setup.'),
-    ('100003', 'Faisal Khan', '+966541122334', 'Flight Ticketing', 'New', 'b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a22', 'Direct flights Dammam to Dhaka round trip.'),
-    ('100004', 'Abdullah Al-Ghamdi', '+966503344556', 'Ziyarah Visa', 'Action Required', 'c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a33', 'Multiple entry family visit visa extension assistance.'),
-    ('100005', 'Shahid Islam', '+966556677889', 'Qiwa/Amel Issues', 'Processing', 'd0eebc99-9c0b-4ef8-bb6d-6bb9bd380a44', 'Sponsor transfer contract pending approval on Qiwa platform.')
-ON CONFLICT (tracking_code) DO NOTHING;
+    (
+        'd4444444-4444-4444-d444-444444444444',
+        'Injamul Hoque',
+        'injamul@binmisal.com',
+        '+966500000999',
+        'super_admin'::public.app_role,
+        NULL,
+        true
+    ),
+    (
+        'e5555555-5555-4555-e555-555555555555',
+        'Rafiqul Islam',
+        'rafiqul.riyadh@binmisal.com',
+        '+966500000001',
+        'branch_manager'::public.app_role,
+        'a1111111-1111-4111-a111-111111111111',
+        true
+    ),
+    (
+        'f6666666-6666-4666-f666-666666666666',
+        'Tariqul Anam',
+        'tariqul.dammam@binmisal.com',
+        '+966500000002',
+        'agent'::public.app_role,
+        'b2222222-2222-4222-b222-222222222222',
+        true
+    ),
+    (
+        '07777777-7777-4777-a777-777777777777',
+        'Shakil Ahmed',
+        'shakil.madinah@binmisal.com',
+        '+966500000003',
+        'agent'::public.app_role,
+        'c3333333-3333-4333-c333-333333333333',
+        true
+    )
+ON CONFLICT (id) DO UPDATE SET
+    full_name = EXCLUDED.full_name,
+    role = EXCLUDED.role,
+    branch_id = EXCLUDED.branch_id,
+    active_status = EXCLUDED.active_status;
+
+
+-- 3. SEED REALISTIC INQUIRIES / LEADS DATA
+INSERT INTO public.inquiries (
+    tracking_code, client_name, client_phone, service_category, status,
+    preferred_branch_id, assigned_agent_id, notes
+)
+VALUES
+    (
+        'BMT101',
+        'Kabir Hossain',
+        '+966511111111',
+        'Passport Malumat'::public.service_category,
+        'New'::public.inquiry_status,
+        'a1111111-1111-4111-a111-111111111111',
+        'e5555555-5555-4555-e555-555555555555',
+        'Needs urgent passport data transfer to new passport.'
+    ),
+    (
+        'BMT102',
+        'Mohammed Ali',
+        '+966522222222',
+        'Umrah'::public.service_category,
+        'Processing'::public.inquiry_status,
+        'b2222222-2222-4222-b222-222222222222',
+        'f6666666-6666-4666-f666-666666666666',
+        'Inquired about 14-day Umrah package for family.'
+    ),
+    (
+        'BMT103',
+        'Sumon Ahmed',
+        '+966533333333',
+        'Flight Ticketing'::public.service_category,
+        'Completed'::public.inquiry_status,
+        'c3333333-3333-4333-c333-333333333333',
+        '07777777-7777-4777-a777-777777777777',
+        'Booked Saudia Flight ticket to Dhaka.'
+    ),
+    (
+        'BMT104',
+        'Kamal Uddin',
+        '+966544444444',
+        'MISA Investor License'::public.service_category,
+        'Action Required'::public.inquiry_status,
+        'a1111111-1111-4111-a111-111111111111',
+        'd4444444-4444-4444-d444-444444444444',
+        'Wants to know foreign business ownership requirements.'
+    )
+ON CONFLICT (tracking_code) DO UPDATE SET
+    client_name = EXCLUDED.client_name,
+    client_phone = EXCLUDED.client_phone,
+    service_category = EXCLUDED.service_category,
+    status = EXCLUDED.status,
+    preferred_branch_id = EXCLUDED.preferred_branch_id,
+    assigned_agent_id = EXCLUDED.assigned_agent_id,
+    notes = EXCLUDED.notes;
+
+COMMIT;
