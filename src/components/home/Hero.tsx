@@ -12,14 +12,14 @@ export default function Hero() {
   return (
     <section className="relative overflow-hidden bg-slate-50 text-slate-900 pt-6 pb-16 lg:pt-8 lg:pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Sky Hero Container with Soft Light Gradient and High-Visibility Flight Motion Background */}
-        <div className="relative rounded-[2.5rem] bg-gradient-to-br from-[#e0f2fe] via-[#f0f9ff] to-white border border-blue-200/80 p-8 sm:p-12 lg:p-16 shadow-2xl shadow-blue-500/10 overflow-hidden">
-          {/* High-Resolution Soaring Airliner Background with Smooth Motion Animation */}
-          <div className="absolute inset-0 z-0 opacity-90 mix-blend-multiply pointer-events-none overflow-hidden">
+        {/* Sky Hero Container matching reference layout */}
+        <div className="relative rounded-[2.5rem] bg-gradient-to-r from-[#e0f2fe] via-[#f0f9ff] to-[#e0f2fe] border border-blue-200 p-8 sm:p-12 lg:p-16 shadow-2xl shadow-blue-500/10 overflow-hidden">
+          {/* Soaring Airliner Background Image with Smooth Motion Animation */}
+          <div className="absolute inset-0 z-0 opacity-95 pointer-events-none overflow-hidden">
             <div className="relative w-full h-full animate-flight-pan">
               <Image
                 src="/images/hero_flight_bg.png"
-                alt="SkyWings Flight Soaring in Blue Sky"
+                alt="SkyWings Commercial Flight Soaring in Blue Sky"
                 fill
                 priority
                 className="object-cover object-right sm:object-right"
@@ -27,12 +27,12 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Vignette Overlay Ensuring Text Legibility while Keeping Right-Side Flight View Open */}
-          <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-transparent sm:to-transparent z-0 pointer-events-none" />
+          {/* Soft White Left Vignette for Text Legibility (Leaving Right Airliner View Clear) */}
+          <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/70 to-transparent z-0 pointer-events-none" />
 
-          {/* 12-Column Grid Layout: Left 7 columns text, Right 5 columns open airliner viewport */}
+          {/* Grid Layout: Left 7 Columns Text & Stats, Right Open Flight Sky */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
-            {/* Left Text Column */}
+            {/* Left Content Column */}
             <div className="lg:col-span-7 space-y-6 text-left">
               {/* Top Category Badge */}
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 text-[#2563eb] text-xs font-extrabold shadow-sm border border-blue-200 backdrop-blur-sm">
@@ -72,7 +72,7 @@ export default function Hero() {
               </div>
 
               {/* Statistics Row */}
-              <div className="pt-6 border-t border-blue-200/70 grid grid-cols-3 gap-4 max-w-lg text-left">
+              <div className="pt-6 border-t border-blue-200/80 grid grid-cols-3 gap-4 max-w-lg text-left">
                 <div>
                   <p className="text-2xl sm:text-3xl font-extrabold text-[#2563eb]">15+</p>
                   <p className="text-xs font-bold text-slate-700 mt-0.5">Years Experience</p>
@@ -88,7 +88,7 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* Right Column: Open Soaring Airliner Viewport (Without red mark component) */}
+            {/* Right Column: Open Airliner Viewport */}
             <div className="hidden lg:block lg:col-span-5 h-96 relative pointer-events-none" />
           </div>
         </div>
