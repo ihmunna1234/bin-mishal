@@ -72,6 +72,23 @@
   border: 1px solid rgba(186, 230, 253, 0.9);
 }
 
+/* Smooth Flight Motion Animation */
+@keyframes flightPan {
+  0% {
+    transform: scale(1.03) translate(0px, 0px);
+  }
+  50% {
+    transform: scale(1.09) translate(-10px, -12px);
+  }
+  100% {
+    transform: scale(1.03) translate(0px, 0px);
+  }
+}
+
+.animate-flight-pan {
+  animation: flightPan 20s ease-in-out infinite alternate;
+}
+
 /* Scrollbar Customization */
 ::-webkit-scrollbar {
   width: 6px;
