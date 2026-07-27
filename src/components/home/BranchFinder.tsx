@@ -83,11 +83,11 @@ export default function BranchFinder() {
       : branchesData.filter((b) => b.city === selectedCity);
 
   return (
-    <section id="branches" className="py-20 bg-slate-100/70 border-t border-slate-200 relative text-slate-900">
+    <section id="branches" className="py-20 bg-[#e0f2fe]/40 border-t border-blue-100 relative text-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3 mb-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-100 text-[#2563eb] text-xs font-bold border border-blue-200">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#e0f2fe] text-[#2563eb] text-xs font-extrabold border border-blue-200 shadow-2xs">
             <Building2 className="w-4 h-4 text-[#2563eb]" />
             <span>Kingdom Wide Network</span>
           </div>
@@ -99,7 +99,7 @@ export default function BranchFinder() {
           </p>
         </div>
 
-        {/* City Filter Tabs */}
+        {/* City Filter Tabs with Ice Blue Secondary Accent */}
         <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
           {['All', 'Riyadh', 'Dammam', 'Madinah', 'Jeddah'].map((city) => (
             <button
@@ -108,7 +108,7 @@ export default function BranchFinder() {
               className={`px-6 py-2.5 rounded-full text-xs font-extrabold transition-all cursor-pointer ${
                 selectedCity === city
                   ? 'bg-[#2563eb] text-white shadow-lg shadow-blue-500/25'
-                  : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs'
+                  : 'bg-white hover:bg-[#e0f2fe] text-slate-700 border border-blue-100 shadow-2xs'
               }`}
             >
               {city === 'All' ? 'All Saudi Branches' : city}
@@ -121,7 +121,7 @@ export default function BranchFinder() {
           {filteredBranches.map((branch) => (
             <div
               key={branch.id}
-              className="rounded-3xl bg-white border border-slate-200/90 p-7 hover:border-[#2563eb] transition-all duration-300 flex flex-col justify-between shadow-xl shadow-slate-200/50"
+              className="rounded-3xl bg-white border border-blue-100/90 p-7 hover:border-[#2563eb] transition-all duration-300 flex flex-col justify-between shadow-xl shadow-blue-500/5"
             >
               <div>
                 {/* Branch Header */}
@@ -136,7 +136,7 @@ export default function BranchFinder() {
                     <h3 className="text-xl font-extrabold text-slate-900">{branch.name}</h3>
                   </div>
 
-                  <span className="px-3.5 py-1 rounded-full bg-blue-50 text-[#2563eb] text-[11px] font-bold border border-blue-200 shrink-0">
+                  <span className="px-3.5 py-1 rounded-full bg-[#e0f2fe] text-[#2563eb] text-[11px] font-extrabold border border-blue-200 shrink-0">
                     Active Branch
                   </span>
                 </div>
@@ -181,7 +181,7 @@ export default function BranchFinder() {
                   href={branch.googleMapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 py-3 px-4 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs border border-slate-300 transition-colors"
+                  className="flex items-center justify-center gap-2 py-3 px-4 rounded-full bg-[#e0f2fe] hover:bg-[#bae6fd] text-[#1e3a8a] font-extrabold text-xs border border-blue-200 transition-colors"
                 >
                   <Navigation className="w-4 h-4 text-[#2563eb]" />
                   <span>Google Maps</span>

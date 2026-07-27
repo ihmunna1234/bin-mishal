@@ -11,15 +11,21 @@ const config: Config = {
       colors: {
         azure: {
           50: '#f0f9ff',
-          100: '#e0f2fe',
+          100: '#e0f2fe', // Soft Ice Blue Secondary Color from User Swatch
           200: '#bae6fd',
           300: '#7dd3fc',
           400: '#38bdf8',
-          500: '#2563eb', // Electric Vibrant Blue from design
+          500: '#2563eb', // Electric Azure Primary Blue
           600: '#1d4ed8',
           700: '#1e40af',
           800: '#1e3a8a',
           900: '#0f172a',
+        },
+        secondarySky: {
+          50: '#f8fafc',
+          100: '#e0f2fe', // Secondary Color
+          200: '#bae6fd',
+          300: '#93c5fd',
         },
         saudi: {
           emerald: '#0F6C44',
