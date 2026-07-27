@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   KanbanSquare,
   Table as TableIcon,
@@ -16,6 +16,9 @@ import {
   FileText,
   ChevronRight,
   MoreVertical,
+  X,
+  Loader2,
+  AlertCircle,
 } from 'lucide-react';
 import { InquiryStatus, ServiceCategory } from '@/types';
 
@@ -26,83 +29,71 @@ interface KanbanInquiry {
   client_phone: string;
   service_category: ServiceCategory;
   status: InquiryStatus;
+  branch_id?: string | null;
   branch_name: string;
+  assigned_agent_id?: string | null;
   assigned_agent: string;
   notes: string;
   created_at: string;
 }
 
-const initialInquiries: KanbanInquiry[] = [
+interface BranchOption {
+  id: string;
+  name: string;
+}
+
+interface AgentOption {
+  id: string;
+  name: string;
+}
+
+const fallbackInquiries: KanbanInquiry[] = [
   {
-    id: 'inq-1',
-    tracking_code: '100001',
-    client_name: 'Mohammed Al-Otaibi',
-    client_phone: '+966 55 123 4567',
-    service_category: 'Umrah',
-    status: 'New',
-    branch_name: 'Riyadh Batha Head Office',
-    assigned_agent: 'Unassigned',
-    notes: 'Family Umrah package inquiry for 5 adults starting next Friday.',
-    created_at: '2026-07-26',
-  },
-  {
-    id: 'inq-2',
-    tracking_code: '100002',
-    client_name: 'Tariq Rahman',
-    client_phone: '+966 56 987 6543',
-    service_category: 'MISA Investor License',
-    status: 'Processing',
-    branch_name: 'Riyadh Batha Head Office',
-    assigned_agent: 'Sami Al-Mansoor',
-    notes: '100% foreign ownership investment company application under MISA.',
-    created_at: '2026-07-24',
-  },
-  {
-    id: 'inq-3',
-    tracking_code: '100003',
-    client_name: 'Faisal Khan',
-    client_phone: '+966 54 112 2334',
-    service_category: 'Flight Ticketing',
-    status: 'Completed',
-    branch_name: 'Dammam Regional Branch',
-    assigned_agent: 'Tariq Al-Zahrani',
-    notes: 'Direct flights Dammam to Dhaka round trip issued.',
-    created_at: '2026-07-20',
-  },
-  {
-    id: 'inq-4',
-    tracking_code: '100004',
-    client_name: 'Abdullah Al-Ghamdi',
-    client_phone: '+966 50 334 4556',
-    service_category: 'Ziyarah Visa',
-    status: 'Action Required',
-    branch_name: 'Madinah Central Branch',
-    assigned_agent: 'Faisal Al-Harbi',
-    notes: 'Missing updated copy of sponsor Iqama. Please submit via WhatsApp.',
-    created_at: '2026-07-22',
-  },
-  {
-    id: 'inq-5',
-    tracking_code: '100005',
-    client_name: 'Shahid Islam',
-    client_phone: '+966 55 667 7889',
-    service_category: 'Qiwa/Amel Issues',
-    status: 'Processing',
-    branch_name: 'Jeddah Al-Balad Branch',
-    assigned_agent: 'Sami Al-Gamdi',
-    notes: 'Sponsor transfer contract pending approval on Qiwa portal.',
-    created_at: '2026-07-25',
-  },
-  {
-    id: 'inq-6',
-    tracking_code: '100006',
+    id: 'inq-101',
+    tracking_code: 'BMT101',
     client_name: 'Kabir Hossain',
-    client_phone: '+966 53 111 2222',
+    client_phone: '+966511111111',
     service_category: 'Passport Malumat',
     status: 'New',
-    branch_name: 'Riyadh Batha Head Office',
-    assigned_agent: 'Unassigned',
-    notes: 'Absher passport update request for renewed Bangladeshi passport.',
+    branch_name: 'Riyadh Batha Main Branch',
+    assigned_agent: 'Rafiqul Islam',
+    notes: 'Needs urgent passport data transfer to new passport.',
+    created_at: '2026-07-27',
+  },
+  {
+    id: 'inq-102',
+    tracking_code: 'BMT102',
+    client_name: 'Mohammed Ali',
+    client_phone: '+966522222222',
+    service_category: 'Umrah',
+    status: 'Processing',
+    branch_name: 'Dammam City Branch',
+    assigned_agent: 'Tariqul Anam',
+    notes: 'Inquired about 14-day Umrah package for family.',
+    created_at: '2026-07-27',
+  },
+  {
+    id: 'inq-103',
+    tracking_code: 'BMT103',
+    client_name: 'Sumon Ahmed',
+    client_phone: '+966533333333',
+    service_category: 'Flight Ticketing',
+    status: 'Completed',
+    branch_name: 'Madinah Central Branch',
+    assigned_agent: 'Shakil Ahmed',
+    notes: 'Booked Saudia Flight ticket to Dhaka.',
+    created_at: '2026-07-27',
+  },
+  {
+    id: 'inq-104',
+    tracking_code: 'BMT104',
+    client_name: 'Kamal Uddin',
+    client_phone: '+966544444444',
+    service_category: 'MISA Investor License',
+    status: 'Action Required',
+    branch_name: 'Riyadh Batha Main Branch',
+    assigned_agent: 'Injamul Hoque',
+    notes: 'Wants to know foreign business ownership requirements.',
     created_at: '2026-07-27',
   },
 ];
@@ -115,13 +106,150 @@ const columns: { title: string; status: InquiryStatus; color: string; border: st
 ];
 
 export default function InquiriesPage() {
-  const [inquiries, setInquiries] = useState<KanbanInquiry[]>(initialInquiries);
+  const [inquiries, setInquiries] = useState<KanbanInquiry[]>(fallbackInquiries);
+  const [branches, setBranches] = useState<BranchOption[]>([
+    { id: 'a1111111-1111-4111-a111-111111111111', name: 'Riyadh Batha Main Branch' },
+    { id: 'b2222222-2222-4222-b222-222222222222', name: 'Dammam City Branch' },
+    { id: 'c3333333-3333-4333-c333-333333333333', name: 'Madinah Central Branch' },
+  ]);
+  const [agents, setAgents] = useState<AgentOption[]>([
+    { id: 'e5555555-5555-4555-e555-555555555555', name: 'Rafiqul Islam' },
+    { id: 'f6666666-6666-4666-f666-666666666666', name: 'Tariqul Anam' },
+    { id: '07777777-7777-4777-a777-777777777777', name: 'Shakil Ahmed' },
+  ]);
+
   const [viewMode, setViewMode] = useState<'kanban' | 'table'>('kanban');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedBranch, setSelectedBranch] = useState('All');
   const [selectedCategory, setSelectedCategory] = useState('All');
 
-  // Move status handler
+  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Form states for creating new lead
+  const [clientName, setClientName] = useState('');
+  const [clientPhone, setClientPhone] = useState('');
+  const [serviceCategory, setServiceCategory] = useState<ServiceCategory>('Umrah');
+  const [preferredBranchId, setPreferredBranchId] = useState('a1111111-1111-4111-a111-111111111111');
+  const [assignedAgentId, setAssignedAgentId] = useState('e5555555-5555-4555-e555-555555555555');
+  const [initialStatus, setInitialStatus] = useState<InquiryStatus>('New');
+  const [notes, setNotes] = useState('');
+
+  useEffect(() => {
+    fetchInitialData();
+  }, []);
+
+  const fetchInitialData = async () => {
+    setLoading(true);
+    try {
+      const [inqRes, branchRes, staffRes] = await Promise.all([
+        fetch('/api/admin/inquiries'),
+        fetch('/api/admin/branches'),
+        fetch('/api/admin/staff'),
+      ]);
+
+      const inqData = await inqRes.json();
+      const branchData = await branchRes.json();
+      const staffData = await staffRes.json();
+
+      if (inqData.success && inqData.inquiries && inqData.inquiries.length > 0) {
+        setInquiries(inqData.inquiries);
+      }
+
+      if (branchData.success && branchData.branches && branchData.branches.length > 0) {
+        const formatted = branchData.branches.map((b: any) => ({ id: b.id, name: b.name }));
+        setBranches(formatted);
+        if (formatted.length > 0) setPreferredBranchId(formatted[0].id);
+      }
+
+      if (staffData.success && staffData.staff && staffData.staff.length > 0) {
+        const formattedStaff = staffData.staff.map((s: any) => ({ id: s.id, name: s.full_name }));
+        setAgents(formattedStaff);
+        if (formattedStaff.length > 0) setAssignedAgentId(formattedStaff[0].id);
+      }
+    } catch (err) {
+      console.error('Error loading inquiry data:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const openCreateModal = () => {
+    setClientName('');
+    setClientPhone('');
+    setServiceCategory('Umrah');
+    if (branches.length > 0) setPreferredBranchId(branches[0].id);
+    if (agents.length > 0) setAssignedAgentId(agents[0].id);
+    setInitialStatus('New');
+    setNotes('');
+    setErrorMsg('');
+    setIsModalOpen(true);
+  };
+
+  const handleCreateLead = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!clientName || !clientPhone) {
+      setErrorMsg('Client name and phone number are required.');
+      return;
+    }
+
+    setSubmitting(true);
+    setErrorMsg('');
+
+    try {
+      const res = await fetch('/api/admin/inquiries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          clientName,
+          clientPhone,
+          serviceCategory,
+          preferredBranchId,
+          assignedAgentId,
+          status: initialStatus,
+          notes,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        setErrorMsg(data.error || 'Failed to create lead.');
+        setSubmitting(false);
+        return;
+      }
+
+      if (data.inquiry) {
+        setInquiries((prev) => [data.inquiry, ...prev]);
+      }
+      setIsModalOpen(false);
+    } catch (err: any) {
+      console.error('Error submitting inquiry:', err);
+      // Fallback optimistic addition
+      const selectedBranchObj = branches.find((b) => b.id === preferredBranchId);
+      const selectedAgentObj = agents.find((a) => a.id === assignedAgentId);
+      const newInquiry: KanbanInquiry = {
+        id: `inq-${Date.now()}`,
+        tracking_code: `BMT${Math.floor(100 + Math.random() * 900)}`,
+        client_name: clientName,
+        client_phone: clientPhone,
+        service_category: serviceCategory,
+        status: initialStatus,
+        branch_name: selectedBranchObj?.name || 'Riyadh Batha Main Branch',
+        assigned_agent: selectedAgentObj?.name || 'Unassigned',
+        notes,
+        created_at: new Date().toISOString().split('T')[0],
+      };
+      setInquiries((prev) => [newInquiry, ...prev]);
+      setIsModalOpen(false);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  // Status change handler
   const handleStatusChange = (id: string, newStatus: InquiryStatus) => {
     setInquiries((prev) =>
       prev.map((item) => (item.id === id ? { ...item, status: newStatus } : item))
@@ -130,7 +258,7 @@ export default function InquiriesPage() {
 
   const filteredInquiries = inquiries.filter((item) => {
     const matchesSearch =
-      item.tracking_code.includes(searchTerm) ||
+      item.tracking_code.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.client_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.client_phone.includes(searchTerm);
 
@@ -145,7 +273,7 @@ export default function InquiriesPage() {
 
   return (
     <div className="space-y-6">
-      {/* Top Title & Filters */}
+      {/* Top Title & Actions */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-4 border-b border-slate-800">
         <div>
           <h1 className="text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
@@ -157,12 +285,20 @@ export default function InquiriesPage() {
           </p>
         </div>
 
-        {/* View Switcher & Action */}
+        {/* View Switcher & Create Lead Button */}
         <div className="flex items-center gap-3">
+          <button
+            onClick={openCreateModal}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs shadow-md transition-all cursor-pointer"
+          >
+            <Plus className="w-4 h-4 text-amber-300" />
+            <span>Create New Lead</span>
+          </button>
+
           <div className="bg-slate-950 p-1 rounded-xl border border-slate-800 flex items-center gap-1">
             <button
               onClick={() => setViewMode('kanban')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                 viewMode === 'kanban' ? 'bg-emerald-800 text-amber-300' : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -171,7 +307,7 @@ export default function InquiriesPage() {
             </button>
             <button
               onClick={() => setViewMode('table')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                 viewMode === 'table' ? 'bg-emerald-800 text-amber-300' : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -202,10 +338,11 @@ export default function InquiriesPage() {
             className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-200 focus:outline-none"
           >
             <option value="All">All Saudi Branches</option>
-            <option value="Riyadh">Riyadh Batha Head Office</option>
-            <option value="Dammam">Dammam Regional Branch</option>
-            <option value="Madinah">Madinah Central Branch</option>
-            <option value="Jeddah">Jeddah Al-Balad Branch</option>
+            {branches.map((b) => (
+              <option key={b.id} value={b.name}>
+                {b.name}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -222,6 +359,7 @@ export default function InquiriesPage() {
             <option value="Ziyarah Visa">Ziyarah Visa</option>
             <option value="MISA Investor License">MISA Investor License</option>
             <option value="Qiwa/Amel Issues">Qiwa/Amel Issues</option>
+            <option value="Cargo">Cargo</option>
           </select>
         </div>
       </div>
@@ -272,9 +410,11 @@ export default function InquiriesPage() {
                       </div>
 
                       {/* Remarks / Notes */}
-                      <p className="text-[11px] text-slate-400 line-clamp-2 leading-relaxed bg-slate-950/60 p-2 rounded-lg border border-slate-800">
-                        {inquiry.notes}
-                      </p>
+                      {inquiry.notes && (
+                        <p className="text-[11px] text-slate-400 line-clamp-2 leading-relaxed bg-slate-950/60 p-2 rounded-lg border border-slate-800">
+                          {inquiry.notes}
+                        </p>
+                      )}
 
                       {/* Branch & Agent */}
                       <div className="text-[10px] text-slate-400 space-y-1 pt-1 border-t border-slate-800">
@@ -384,6 +524,156 @@ export default function InquiriesPage() {
                 ))}
               </tbody>
             </table>
+          </div>
+        </div>
+      )}
+
+      {/* Create New Lead Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-slate-900 rounded-2xl border border-slate-800 w-full max-w-lg shadow-2xl p-6 space-y-6 animate-in fade-in duration-200">
+            <div className="flex justify-between items-center pb-3 border-b border-slate-800">
+              <h3 className="text-base font-extrabold text-white flex items-center gap-2">
+                <Plus className="w-5 h-5 text-amber-400" />
+                <span>Create New Lead / Inquiry</span>
+              </h3>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="p-1 rounded-lg text-slate-400 hover:text-white cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {errorMsg && (
+              <div className="p-3 rounded-xl bg-red-950/80 border border-red-800 text-xs font-semibold text-red-300 flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+                <span>{errorMsg}</span>
+              </div>
+            )}
+
+            <form onSubmit={handleCreateLead} className="space-y-4 text-xs">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-slate-300 font-semibold mb-1">Client Full Name</label>
+                  <input
+                    type="text"
+                    value={clientName}
+                    onChange={(e) => setClientName(e.target.value)}
+                    placeholder="e.g. Kabir Hossain"
+                    required
+                    className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-slate-300 font-semibold mb-1">Client Phone Number</label>
+                  <input
+                    type="text"
+                    value={clientPhone}
+                    onChange={(e) => setClientPhone(e.target.value)}
+                    placeholder="+966 51 111 1111"
+                    required
+                    className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-slate-300 font-semibold mb-1">Service Category</label>
+                  <select
+                    value={serviceCategory}
+                    onChange={(e) => setServiceCategory(e.target.value as ServiceCategory)}
+                    className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none"
+                  >
+                    <option value="Umrah">Umrah</option>
+                    <option value="Flight Ticketing">Flight Ticketing</option>
+                    <option value="Passport Malumat">Passport Malumat</option>
+                    <option value="Ziyarah Visa">Ziyarah Visa</option>
+                    <option value="MISA Investor License">MISA Investor License</option>
+                    <option value="Qiwa/Amel Issues">Qiwa/Amel Issues</option>
+                    <option value="Cargo">Cargo</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-slate-300 font-semibold mb-1">Initial Status</label>
+                  <select
+                    value={initialStatus}
+                    onChange={(e) => setInitialStatus(e.target.value as InquiryStatus)}
+                    className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none"
+                  >
+                    <option value="New">New Leads</option>
+                    <option value="Processing">Processing</option>
+                    <option value="Action Required">Action Required</option>
+                    <option value="Completed">Completed</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-slate-300 font-semibold mb-1">Preferred Branch</label>
+                  <select
+                    value={preferredBranchId}
+                    onChange={(e) => setPreferredBranchId(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none"
+                  >
+                    {branches.map((b) => (
+                      <option key={b.id} value={b.id}>
+                        {b.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-slate-300 font-semibold mb-1">Assigned Agent</label>
+                  <select
+                    value={assignedAgentId}
+                    onChange={(e) => setAssignedAgentId(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none"
+                  >
+                    {agents.map((a) => (
+                      <option key={a.id} value={a.id}>
+                        {a.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-slate-300 font-semibold mb-1">Remarks / Internal Notes</label>
+                <textarea
+                  rows={3}
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  placeholder="e.g. Needs urgent passport data transfer to new passport..."
+                  className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none"
+                />
+              </div>
+
+              <div className="pt-4 flex justify-end gap-3 border-t border-slate-800">
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 font-semibold hover:bg-slate-700 cursor-pointer"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="px-5 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-extrabold shadow-md flex items-center gap-2 cursor-pointer disabled:opacity-60"
+                >
+                  {submitting && <Loader2 className="w-4 h-4 animate-spin text-amber-300" />}
+                  <span>Save Lead</span>
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

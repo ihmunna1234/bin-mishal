@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Users,
   UserPlus,
@@ -13,6 +13,8 @@ import {
   Edit3,
   Search,
   Lock,
+  Loader2,
+  AlertCircle,
 } from 'lucide-react';
 import { AppRole } from '@/types';
 
@@ -22,66 +24,71 @@ interface StaffUser {
   email: string;
   phone: string;
   role: AppRole;
+  branch_id?: string | null;
   branch_name: string;
   active_status: boolean;
   joined_date: string;
 }
 
-const initialStaff: StaffUser[] = [
+interface BranchOption {
+  id: string;
+  name: string;
+}
+
+const fallbackStaff: StaffUser[] = [
   {
-    id: 'usr-1',
-    full_name: 'Sheikh Al-Mansoor',
-    email: 'admin@binmisal.com',
-    phone: '+966 50 111 2233',
+    id: 'd4444444-4444-4444-d444-444444444444',
+    full_name: 'Injamul Hoque',
+    email: 'injamul@binmisal.com',
+    phone: '+966500000999',
     role: 'super_admin',
-    branch_name: 'Riyadh Batha Head Office',
+    branch_name: 'Global HQ',
     active_status: true,
-    joined_date: '2024-01-15',
+    joined_date: '2026-07-27',
   },
   {
-    id: 'usr-2',
-    full_name: 'Sami Al-Mansoor',
-    email: 'sami.riyadh@binmisal.com',
-    phone: '+966 55 222 3344',
+    id: 'e5555555-5555-4555-e555-555555555555',
+    full_name: 'Rafiqul Islam',
+    email: 'rafiqul.riyadh@binmisal.com',
+    phone: '+966500000001',
     role: 'branch_manager',
-    branch_name: 'Riyadh Batha Head Office',
+    branch_name: 'Riyadh Batha Main Branch',
     active_status: true,
-    joined_date: '2024-03-10',
+    joined_date: '2026-07-27',
   },
   {
-    id: 'usr-3',
-    full_name: 'Tariq Al-Zahrani',
-    email: 'tariq.dammam@binmisal.com',
-    phone: '+966 50 333 4455',
-    role: 'branch_manager',
-    branch_name: 'Dammam Regional Branch',
+    id: 'f6666666-6666-4666-f666-666666666666',
+    full_name: 'Tariqul Anam',
+    email: 'tariqul.dammam@binmisal.com',
+    phone: '+966500000002',
+    role: 'agent',
+    branch_name: 'Dammam City Branch',
     active_status: true,
-    joined_date: '2024-05-01',
+    joined_date: '2026-07-27',
   },
   {
-    id: 'usr-4',
-    full_name: 'Faisal Al-Harbi',
-    email: 'faisal.madinah@binmisal.com',
-    phone: '+966 54 444 5566',
+    id: '07777777-7777-4777-a777-777777777777',
+    full_name: 'Shakil Ahmed',
+    email: 'shakil.madinah@binmisal.com',
+    phone: '+966500000003',
     role: 'agent',
     branch_name: 'Madinah Central Branch',
     active_status: true,
-    joined_date: '2025-02-12',
-  },
-  {
-    id: 'usr-5',
-    full_name: 'Kabir Ahmed',
-    email: 'kabir.agent@binmisal.com',
-    phone: '+966 56 555 6677',
-    role: 'agent',
-    branch_name: 'Riyadh Batha Head Office',
-    active_status: true,
-    joined_date: '2025-06-20',
+    joined_date: '2026-07-27',
   },
 ];
 
 export default function StaffManagementPage() {
-  const [staffList, setStaffList] = useState<StaffUser[]>(initialStaff);
+  const [staffList, setStaffList] = useState<StaffUser[]>(fallbackStaff);
+  const [branches, setBranches] = useState<BranchOption[]>([
+    { id: 'a1111111-1111-4111-a111-111111111111', name: 'Riyadh Batha Main Branch' },
+    { id: 'b2222222-2222-4222-b222-222222222222', name: 'Dammam City Branch' },
+    { id: 'c3333333-3333-4333-c333-333333333333', name: 'Madinah Central Branch' },
+  ]);
+
+  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingStaff, setEditingStaff] = useState<StaffUser | null>(null);
 
@@ -90,7 +97,43 @@ export default function StaffManagementPage() {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [role, setRole] = useState<AppRole>('agent');
-  const [branchName, setBranchName] = useState('Riyadh Batha Head Office');
+  const [selectedBranchId, setSelectedBranchId] = useState<string>('a1111111-1111-4111-a111-111111111111');
+
+  useEffect(() => {
+    fetchInitialData();
+  }, []);
+
+  const fetchInitialData = async () => {
+    setLoading(true);
+    try {
+      const [staffRes, branchRes] = await Promise.all([
+        fetch('/api/admin/staff'),
+        fetch('/api/admin/branches'),
+      ]);
+
+      const staffData = await staffRes.json();
+      const branchData = await branchRes.json();
+
+      if (staffData.success && staffData.staff && staffData.staff.length > 0) {
+        setStaffList(staffData.staff);
+      }
+
+      if (branchData.success && branchData.branches && branchData.branches.length > 0) {
+        const formattedBranchOptions = branchData.branches.map((b: any) => ({
+          id: b.id,
+          name: b.name,
+        }));
+        setBranches(formattedBranchOptions);
+        if (formattedBranchOptions.length > 0) {
+          setSelectedBranchId(formattedBranchOptions[0].id);
+        }
+      }
+    } catch (err) {
+      console.error('Error fetching staff/branch data:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const openInviteModal = () => {
     setEditingStaff(null);
@@ -98,7 +141,10 @@ export default function StaffManagementPage() {
     setEmail('');
     setPhone('');
     setRole('agent');
-    setBranchName('Riyadh Batha Head Office');
+    if (branches.length > 0) {
+      setSelectedBranchId(branches[0].id);
+    }
+    setErrorMsg('');
     setIsModalOpen(true);
   };
 
@@ -108,36 +154,66 @@ export default function StaffManagementPage() {
     setEmail(staff.email);
     setPhone(staff.phone);
     setRole(staff.role);
-    setBranchName(staff.branch_name);
+    setSelectedBranchId(staff.branch_id || (branches.length > 0 ? branches[0].id : ''));
+    setErrorMsg('');
     setIsModalOpen(true);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!fullName || !email) return;
+    if (!fullName || !email) {
+      setErrorMsg('Full name and email are required.');
+      return;
+    }
 
-    if (editingStaff) {
-      setStaffList((prev) =>
-        prev.map((item) =>
-          item.id === editingStaff.id
-            ? { ...item, full_name: fullName, email, phone, role, branch_name: branchName }
-            : item
-        )
-      );
-    } else {
+    setSubmitting(true);
+    setErrorMsg('');
+
+    try {
+      const res = await fetch('/api/admin/staff', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName,
+          email,
+          phone,
+          role,
+          branchId: role === 'super_admin' ? null : selectedBranchId,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        setErrorMsg(data.error || 'Failed to add staff member.');
+        setSubmitting(false);
+        return;
+      }
+
+      if (data.staff) {
+        setStaffList((prev) => [data.staff, ...prev]);
+      }
+      setIsModalOpen(false);
+    } catch (err: any) {
+      console.error('Error submitting staff:', err);
+      // Fallback optimistic addition
+      const selectedBranchObj = branches.find((b) => b.id === selectedBranchId);
       const newStaff: StaffUser = {
         id: `usr-${Date.now()}`,
         full_name: fullName,
         email,
-        phone: phone || '+966 50 000 0000',
+        phone: phone || '+966500000000',
         role,
-        branch_name: branchName,
+        branch_id: selectedBranchId,
+        branch_name: role === 'super_admin' ? 'Global HQ' : selectedBranchObj?.name || 'Riyadh Branch',
         active_status: true,
         joined_date: new Date().toISOString().split('T')[0],
       };
-      setStaffList((prev) => [...prev, newStaff]);
+      setStaffList((prev) => [newStaff, ...prev]);
+      setIsModalOpen(false);
+    } finally {
+      setSubmitting(false);
     }
-    setIsModalOpen(false);
   };
 
   const getRoleBadge = (r: AppRole) => {
@@ -179,15 +255,24 @@ export default function StaffManagementPage() {
 
         <button
           onClick={openInviteModal}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs shadow-md transition-all"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs shadow-md transition-all cursor-pointer"
         >
           <UserPlus className="w-4 h-4 text-amber-300" />
-          <span>Invite Employee</span>
+          <span>Invite / Add Staff Member</span>
         </button>
       </div>
 
       {/* Staff User Table Card */}
-      <div className="rounded-2xl bg-slate-950 border border-slate-800 p-6 shadow-xl">
+      <div className="rounded-2xl bg-slate-950 border border-slate-800 p-6 shadow-xl relative">
+        {loading && (
+          <div className="absolute inset-0 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center z-10 rounded-2xl">
+            <div className="flex items-center gap-2 text-xs font-bold text-amber-400">
+              <Loader2 className="w-5 h-5 animate-spin" />
+              <span>Loading Staff Roster...</span>
+            </div>
+          </div>
+        )}
+
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs text-slate-300">
             <thead className="bg-slate-900 text-slate-400 uppercase text-[10px] tracking-wider border-b border-slate-800">
@@ -232,7 +317,7 @@ export default function StaffManagementPage() {
                   <td className="py-4 px-4 text-right">
                     <button
                       onClick={() => openEditModal(user)}
-                      className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 transition-colors"
+                      className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 transition-colors cursor-pointer"
                       title="Edit Staff Access"
                     >
                       <Edit3 className="w-4 h-4 text-amber-400" />
@@ -252,15 +337,22 @@ export default function StaffManagementPage() {
             <div className="flex justify-between items-center pb-3 border-b border-slate-800">
               <h3 className="text-base font-extrabold text-white flex items-center gap-2">
                 <UserPlus className="w-5 h-5 text-amber-400" />
-                {editingStaff ? 'Edit Employee Access' : 'Invite New Employee'}
+                {editingStaff ? 'Edit Employee Access' : 'Invite / Add Staff Member'}
               </h3>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="p-1 rounded-lg text-slate-400 hover:text-white"
+                className="p-1 rounded-lg text-slate-400 hover:text-white cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
+
+            {errorMsg && (
+              <div className="p-3 rounded-xl bg-red-950/80 border border-red-800 text-xs font-semibold text-red-300 flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+                <span>{errorMsg}</span>
+              </div>
+            )}
 
             <form onSubmit={handleSubmit} className="space-y-4 text-xs">
               <div>
@@ -269,7 +361,7 @@ export default function StaffManagementPage() {
                   type="text"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  placeholder="e.g. Abdullah Al-Mansoor"
+                  placeholder="e.g. Shakil Ahmed"
                   required
                   className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                 />
@@ -282,7 +374,7 @@ export default function StaffManagementPage() {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="agent@binmisal.com"
+                    placeholder="shakil@binmisal.com"
                     required
                     className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none"
                   />
@@ -294,7 +386,7 @@ export default function StaffManagementPage() {
                     type="text"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    placeholder="+966 50 111 2233"
+                    placeholder="+966 50 000 0003"
                     className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none"
                   />
                 </div>
@@ -317,14 +409,16 @@ export default function StaffManagementPage() {
                 <div>
                   <label className="block text-slate-300 font-semibold mb-1">Assigned Physical Branch</label>
                   <select
-                    value={branchName}
-                    onChange={(e) => setBranchName(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none"
+                    value={selectedBranchId}
+                    onChange={(e) => setSelectedBranchId(e.target.value)}
+                    disabled={role === 'super_admin'}
+                    className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none disabled:opacity-50"
                   >
-                    <option value="Riyadh Batha Head Office">Riyadh Batha Head Office</option>
-                    <option value="Dammam Regional Branch">Dammam Regional Branch</option>
-                    <option value="Madinah Central Branch">Madinah Central Branch</option>
-                    <option value="Jeddah Al-Balad Branch">Jeddah Al-Balad Branch</option>
+                    {branches.map((b) => (
+                      <option key={b.id} value={b.id}>
+                        {b.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -333,16 +427,18 @@ export default function StaffManagementPage() {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 font-semibold hover:bg-slate-700"
+                  className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 font-semibold hover:bg-slate-700 cursor-pointer"
                 >
                   Cancel
                 </button>
 
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-extrabold shadow-md"
+                  disabled={submitting}
+                  className="px-5 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-extrabold shadow-md flex items-center gap-2 cursor-pointer disabled:opacity-60"
                 >
-                  Save Access Setup
+                  {submitting && <Loader2 className="w-4 h-4 animate-spin text-amber-300" />}
+                  <span>Save Staff Account</span>
                 </button>
               </div>
             </form>
