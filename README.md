@@ -57,9 +57,17 @@ SUPABASE_SERVICE_ROLE_KEY=your-service-role-key-here
 # Database Connections (Prisma)
 DATABASE_URL=postgresql://postgres:[PASSWORD]@db.[PROJECT-REF].supabase.co:5432/postgres
 DIRECT_URL=postgresql://postgres:[PASSWORD]@db.[PROJECT-REF].supabase.co:5432/postgres
+
+# Admin & System Secrets
+ADMIN_SEED_SECRET=your-admin-seed-secret-here
 ```
 
+> [!CAUTION]
+> **SECURITY NOTICE & SECRET ROTATION WARNING**  
+> If any API keys, database credentials, or secret tokens were previously hardcoded or committed during development, **rotate those secret values immediately** in Supabase, your database provider, and your hosting environment (e.g. Vercel) before deploying to production. Never commit real credentials to version control.
+
 ---
+
 
 ## 📦 Installation & Setup
 

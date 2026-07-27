@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { ServiceCategory } from '@prisma/client';
+import { createErrorResponse } from '@/lib/errors';
 
 function mapToServiceCategoryEnum(catString: string): ServiceCategory {
   const normalized = (catString || '').toLowerCase();
@@ -53,6 +54,14 @@ export async function POST(req: Request) {
     if (!client_name || !client_phone) {
       return NextResponse.json(
         { error: 'Full Name and Phone / WhatsApp number are required.' },
+        { status: 400 }
+      );
+    }
+
+    // Input length validation
+    if (client_name.length > 255 || client_phone.length > 50 || (notes && notes.length > 2000) || (service_title && service_title.length > 255) || (branch_city && branch_city.length > 100)) {
+      return NextResponse.json(
+        { error: 'Input length exceeds the maximum allowed limits.' },
         { status: 400 }
       );
     }
@@ -167,22 +176,6 @@ export async function POST(req: Request) {
       whatsapp_url: whatsappUrl,
     });
   } catch (error: any) {
-    console.error('Public Lead Creation Error:', error);
-
-    // Fallback Code Generation if database connection is temporarily pending
-    const fallbackCode = `BMT${Math.floor(100 + Math.random() * 900)}`;
-    const prefilledText = `Assalamu Alaikum, I just submitted an inquiry on Bin Mishal website. My Tracking Code is #${fallbackCode}. Please assist me.`;
-
-    return NextResponse.json({
-      success: true,
-      tracking_code: fallbackCode,
-      assigned_branch: {
-        name: 'Riyadh Batha Main Branch',
-        phone: '+966500000001',
-        whatsapp: '966500000001',
-      },
-      whatsapp_url: `https://wa.me/966500000001?text=${encodeURIComponent(prefilledText)}`,
-      fallback: true,
-    });
+    return createErrorResponse(error, 'Failed to submit inquiry. Please try again later.');
   }
 }

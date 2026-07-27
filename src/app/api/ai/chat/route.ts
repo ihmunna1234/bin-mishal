@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { searchKnowledgeBase } from '@/lib/ai/vectorStore';
 import { routeMultiAgentConversation } from '@/lib/ai/agents';
+import { createErrorResponse } from '@/lib/errors';
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,6 +13,16 @@ export async function POST(request: NextRequest) {
         {
           success: false,
           error: 'Please provide a valid message string in the request body.',
+        },
+        { status: 400 }
+      );
+    }
+
+    if (userMessage.length > 1000) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Message exceeds the maximum allowed length of 1000 characters.',
         },
         { status: 400 }
       );
@@ -39,13 +50,6 @@ export async function POST(request: NextRequest) {
       timestamp: new Date().toISOString(),
     });
   } catch (error: any) {
-    console.error('Error in /api/ai/chat handler:', error);
-    return NextResponse.json(
-      {
-        success: false,
-        error: error.message || 'Internal AI Server Error processing query.',
-      },
-      { status: 500 }
-    );
+    return createErrorResponse(error, 'An internal error occurred processing your AI request. Please try again.');
   }
 }

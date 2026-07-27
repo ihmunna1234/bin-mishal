@@ -16,6 +16,7 @@ import {
   Bell,
   ExternalLink,
 } from 'lucide-react';
+import { createClient } from '@/lib/supabase/client';
 
 const navItems = [
   { href: '/admin', label: 'Overview', icon: LayoutDashboard },
@@ -34,7 +35,9 @@ export default function AdminLayout({
   const router = useRouter();
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
     document.cookie = 'bin_misal_auth_session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
     document.cookie = 'bin_misal_demo_role=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
 

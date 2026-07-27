@@ -2,15 +2,90 @@ import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 import { Database } from '@/types/database';
 import { AuthUserContext, UserProfile } from '@/types';
+import { checkRateLimit } from '@/lib/rateLimit';
 
 export async function updateSession(request: NextRequest) {
+  const ip =
+    request.headers.get('x-forwarded-for')?.split(',')[0].trim() ||
+    request.headers.get('x-real-ip') ||
+    '127.0.0.1';
+
+  const pathname = request.nextUrl.pathname;
+
+  // 1. Rate Limiting Check for Authentication Endpoints (login)
+  if (pathname.startsWith('/login') && request.method === 'POST') {
+    const rateLimit = checkRateLimit(`login_${ip}`, 5, 60000); // 5 attempts per minute per IP
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: `Too many login attempts. Please wait ${rateLimit.resetSeconds} seconds before trying again.`,
+        },
+        {
+          status: 429,
+          headers: {
+            'Retry-After': String(rateLimit.resetSeconds),
+            'X-RateLimit-Limit': String(rateLimit.limit),
+            'X-RateLimit-Remaining': '0',
+          },
+        }
+      );
+    }
+  }
+
+  // Rate Limiting Check for Public API Endpoints
+  if (pathname.startsWith('/api/inquiries/public-create') || pathname.startsWith('/api/ai/chat')) {
+    const rateLimit = checkRateLimit(`api_${ip}`, 10, 60000); // 10 attempts per minute per IP
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: `Rate limit exceeded. Please wait ${rateLimit.resetSeconds} seconds.`,
+        },
+        { status: 429, headers: { 'Retry-After': String(rateLimit.resetSeconds) } }
+      );
+    }
+  }
+
   let supabaseResponse = NextResponse.next({
     request,
   });
 
+  // 2. CORS Handling for API endpoints
+  if (pathname.startsWith('/api/')) {
+    const origin = request.headers.get('origin');
+    const allowedOrigin = process.env.NEXT_PUBLIC_APP_URL || request.nextUrl.origin;
+
+    if (origin && origin !== allowedOrigin && process.env.NODE_ENV === 'production') {
+      return NextResponse.json(
+        { success: false, error: 'CORS forbidden: Origin not allowed.' },
+        { status: 403 }
+      );
+    }
+    
+    if (origin) {
+      supabaseResponse.headers.set('Access-Control-Allow-Origin', origin);
+      supabaseResponse.headers.set('Access-Control-Allow-Credentials', 'true');
+      supabaseResponse.headers.set(
+        'Access-Control-Allow-Methods',
+        'GET, POST, PUT, DELETE, OPTIONS'
+      );
+      supabaseResponse.headers.set(
+        'Access-Control-Allow-Headers',
+        'Content-Type, Authorization, X-Requested-With'
+      );
+    }
+  }
+
+  // 3. Security Headers
+  supabaseResponse.headers.set('X-Content-Type-Options', 'nosniff');
+  supabaseResponse.headers.set('X-Frame-Options', 'DENY');
+  supabaseResponse.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  supabaseResponse.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+
   const supabase = createServerClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key',
+    process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
     {
       cookies: {
         getAll() {
@@ -35,22 +110,12 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const demoRole = request.cookies.get('bin_misal_demo_role')?.value;
-
-  // If path is under /admin, enforce authentication and RBAC checks
-  if (request.nextUrl.pathname.startsWith('/admin')) {
-    // Allow demo session access during local development & testing
-    if (demoRole || process.env.NODE_ENV === 'development') {
-      supabaseResponse.headers.set('x-user-id', 'demo-user-1');
-      supabaseResponse.headers.set('x-user-role', demoRole || 'super_admin');
-      supabaseResponse.headers.set('x-user-branch-id', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11');
-      return supabaseResponse;
-    }
-
+  // 4. Production RBAC & Admin Authentication (Strictly No Demo Cookie Backdoor)
+  if (pathname.startsWith('/admin')) {
     if (!user) {
       const url = request.nextUrl.clone();
       url.pathname = '/login';
-      url.searchParams.set('redirectTo', request.nextUrl.pathname);
+      url.searchParams.set('redirectTo', pathname);
       return NextResponse.redirect(url);
     }
 
@@ -79,10 +144,9 @@ export async function updateSession(request: NextRequest) {
     };
 
     const superAdminOnlyRoutes = ['/admin/branches', '/admin/settings'];
-    const currentPath = request.nextUrl.pathname;
 
     if (
-      superAdminOnlyRoutes.some((route) => currentPath.startsWith(route)) &&
+      superAdminOnlyRoutes.some((route) => pathname.startsWith(route)) &&
       authContext.role !== 'super_admin'
     ) {
       const url = request.nextUrl.clone();
@@ -97,3 +161,4 @@ export async function updateSession(request: NextRequest) {
 
   return supabaseResponse;
 }
+

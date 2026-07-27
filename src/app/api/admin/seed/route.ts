@@ -1,16 +1,23 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { createErrorResponse } from '@/lib/errors';
 
 export async function POST(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
-    const secret = searchParams.get('secret') || request.headers.get('x-seed-secret');
-    const expectedSecret = process.env.ADMIN_SEED_SECRET || 'bin_misal_seed_secret_2026';
-
-    if (secret !== expectedSecret) {
+    if (process.env.NODE_ENV === 'production') {
       return NextResponse.json(
-        { error: 'Unauthorized. Invalid seed secret key.' },
+        { success: false, error: 'Database seed endpoint is strictly disabled in production.' },
+        { status: 403 }
+      );
+    }
+
+    const secret = request.headers.get('x-seed-secret');
+    const expectedSecret = process.env.ADMIN_SEED_SECRET;
+
+    if (!expectedSecret || secret !== expectedSecret) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized. Missing or invalid seed secret key.' },
         { status: 401 }
       );
     }
@@ -277,11 +284,7 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error: any) {
-    console.error('Seed API error:', error);
-    return NextResponse.json(
-      { success: false, error: error.message || 'Failed to seed database.' },
-      { status: 500 }
-    );
+    return createErrorResponse(error, 'Failed to seed database.');
   }
 }
 

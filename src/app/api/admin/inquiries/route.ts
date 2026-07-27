@@ -1,9 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { ServiceCategory, InquiryStatus } from '@prisma/client';
+import { createErrorResponse } from '@/lib/errors';
+import { headers } from 'next/headers';
 
 export async function GET() {
   try {
+    const headersList = headers();
+    const userId = headersList.get('x-user-id');
+    if (!userId) {
+      return NextResponse.json(
+        { success: false, error: 'Authentication required.' },
+        { status: 401 }
+      );
+    }
+
     const inquiries = await prisma.inquiry.findMany({
       include: {
         preferredBranch: true,
@@ -12,7 +23,7 @@ export async function GET() {
       orderBy: { createdAt: 'desc' },
     });
 
-    const formattedInquiries = inquiries.map((inq) => ({
+    const formattedInquiries = inquiries.map((inq: any) => ({
       id: inq.id,
       tracking_code: inq.trackingCode,
       client_name: inq.clientName,
@@ -29,16 +40,21 @@ export async function GET() {
 
     return NextResponse.json({ success: true, inquiries: formattedInquiries });
   } catch (error: any) {
-    console.error('GET /api/admin/inquiries error:', error);
-    return NextResponse.json(
-      { success: false, error: error.message || 'Failed to fetch inquiries' },
-      { status: 500 }
-    );
+    return createErrorResponse(error, 'Failed to fetch inquiries. Please try again.');
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
+    const headersList = headers();
+    const userId = headersList.get('x-user-id');
+    if (!userId) {
+      return NextResponse.json(
+        { success: false, error: 'Authentication required.' },
+        { status: 401 }
+      );
+    }
+
     const body = await request.json();
     const {
       clientName,
@@ -53,6 +69,14 @@ export async function POST(request: NextRequest) {
     if (!clientName || !clientPhone || !serviceCategory) {
       return NextResponse.json(
         { success: false, error: 'Client name, phone number, and service category are required.' },
+        { status: 400 }
+      );
+    }
+
+    // Input length validations
+    if (clientName.length > 255 || clientPhone.length > 50 || (notes && notes.length > 2000)) {
+      return NextResponse.json(
+        { success: false, error: 'Input length exceeds the maximum allowed limits.' },
         { status: 400 }
       );
     }
@@ -113,10 +137,50 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error: any) {
-    console.error('POST /api/admin/inquiries error:', error);
-    return NextResponse.json(
-      { success: false, error: error.message || 'Failed to create lead.' },
-      { status: 500 }
-    );
+    return createErrorResponse(error, 'Failed to create lead. Please try again.');
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const headersList = headers();
+    const userId = headersList.get('x-user-id');
+    const userRole = headersList.get('x-user-role');
+
+    if (!userId) {
+      return NextResponse.json(
+        { success: false, error: 'Authentication required.' },
+        { status: 401 }
+      );
+    }
+
+    if (userRole !== 'super_admin' && userRole !== 'branch_manager') {
+      return NextResponse.json(
+        { success: false, error: 'Insufficient permissions to delete inquiries.' },
+        { status: 403 }
+      );
+    }
+
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json(
+        { success: false, error: 'Inquiry ID is required for deletion.' },
+        { status: 400 }
+      );
+    }
+
+    // Permanently remove inquiry lead and personal data
+    await prisma.inquiry.delete({
+      where: { id },
+    });
+
+    return NextResponse.json({
+      success: true,
+      message: 'Inquiry record and associated personal data erased successfully.',
+    });
+  } catch (error: any) {
+    return createErrorResponse(error, 'Failed to delete inquiry record. Please try again.');
   }
 }
