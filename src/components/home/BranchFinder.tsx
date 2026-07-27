@@ -83,18 +83,18 @@ export default function BranchFinder() {
       : branchesData.filter((b) => b.city === selectedCity);
 
   return (
-    <section id="branches" className="py-20 bg-slate-900 text-white relative">
+    <section id="branches" className="py-20 bg-slate-100/70 border-t border-slate-200 relative text-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3 mb-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1e40af] text-sky-200 text-xs font-bold border border-blue-600">
-            <Building2 className="w-4 h-4 text-[#38bdf8]" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-100 text-[#2563eb] text-xs font-bold border border-blue-200">
+            <Building2 className="w-4 h-4 text-[#2563eb]" />
             <span>Kingdom Wide Network</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
             Our Saudi Arabia Branch Locations
           </h2>
-          <p className="text-sm text-slate-300 font-medium">
+          <p className="text-sm text-slate-600 font-medium">
             রিয়াদ, দাম্মাম, মদিনা ও জেদ্দায় আমাদের নিজস্ব ব্রাঞ্চ থেকে সরাসরি সেবা নিন।
           </p>
         </div>
@@ -107,8 +107,8 @@ export default function BranchFinder() {
               onClick={() => setSelectedCity(city)}
               className={`px-6 py-2.5 rounded-full text-xs font-extrabold transition-all cursor-pointer ${
                 selectedCity === city
-                  ? 'bg-[#2563eb] text-white shadow-lg shadow-blue-500/30'
-                  : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700'
+                  ? 'bg-[#2563eb] text-white shadow-lg shadow-blue-500/25'
+                  : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs'
               }`}
             >
               {city === 'All' ? 'All Saudi Branches' : city}
@@ -121,50 +121,50 @@ export default function BranchFinder() {
           {filteredBranches.map((branch) => (
             <div
               key={branch.id}
-              className="rounded-3xl bg-slate-800/90 border border-slate-700/80 p-7 hover:border-[#2563eb] transition-all duration-300 flex flex-col justify-between shadow-xl"
+              className="rounded-3xl bg-white border border-slate-200/90 p-7 hover:border-[#2563eb] transition-all duration-300 flex flex-col justify-between shadow-xl shadow-slate-200/50"
             >
               <div>
                 {/* Branch Header */}
-                <div className="flex items-start justify-between gap-4 mb-4 pb-4 border-b border-slate-700">
+                <div className="flex items-start justify-between gap-4 mb-4 pb-4 border-b border-slate-100">
                   <div>
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
-                      <span className="text-[11px] font-extrabold uppercase text-[#38bdf8] tracking-wider">
+                      <span className="w-2 h-2 rounded-full bg-[#2563eb] animate-pulse" />
+                      <span className="text-[11px] font-extrabold uppercase text-[#2563eb] tracking-wider">
                         {branch.city} Region
                       </span>
                     </div>
-                    <h3 className="text-xl font-extrabold text-white">{branch.name}</h3>
+                    <h3 className="text-xl font-extrabold text-slate-900">{branch.name}</h3>
                   </div>
 
-                  <span className="px-3 py-1 rounded-full bg-blue-950 text-sky-300 text-[11px] font-bold border border-blue-800 shrink-0">
+                  <span className="px-3.5 py-1 rounded-full bg-blue-50 text-[#2563eb] text-[11px] font-bold border border-blue-200 shrink-0">
                     Active Branch
                   </span>
                 </div>
 
                 {/* Branch Details */}
-                <div className="space-y-3.5 text-xs text-slate-300 mb-6">
+                <div className="space-y-3.5 text-xs text-slate-600 mb-6 font-medium">
                   <div className="flex items-start gap-3">
-                    <MapPin className="w-4.5 h-4.5 text-[#38bdf8] shrink-0 mt-0.5" />
+                    <MapPin className="w-4.5 h-4.5 text-[#2563eb] shrink-0 mt-0.5" />
                     <div>
-                      <p className="font-bold text-slate-100">{branch.address}</p>
-                      <p className="text-[11px] text-slate-400 mt-0.5 font-medium">{branch.addressBn}</p>
+                      <p className="font-extrabold text-slate-900">{branch.address}</p>
+                      <p className="text-[11px] text-slate-500 mt-0.5 font-medium">{branch.addressBn}</p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <Clock className="w-4.5 h-4.5 text-sky-400 shrink-0" />
-                    <span className="font-semibold">{branch.hours}</span>
+                    <Clock className="w-4.5 h-4.5 text-[#2563eb] shrink-0" />
+                    <span className="font-bold text-slate-800">{branch.hours}</span>
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <Phone className="w-4.5 h-4.5 text-blue-400 shrink-0" />
-                    <span className="font-mono font-bold text-slate-200">{branch.phone}</span>
+                    <Phone className="w-4.5 h-4.5 text-[#2563eb] shrink-0" />
+                    <span className="font-mono font-bold text-slate-800">{branch.phone}</span>
                   </div>
                 </div>
               </div>
 
               {/* Action Buttons Grid */}
-              <div className="grid grid-cols-2 gap-3 pt-4 border-t border-slate-700">
+              <div className="grid grid-cols-2 gap-3 pt-4 border-t border-slate-100">
                 <a
                   href={`https://wa.me/${branch.whatsapp}?text=Assalamu%20Alaikum,%20I%20need%20assistance%20from%20${encodeURIComponent(
                     branch.name
@@ -181,9 +181,9 @@ export default function BranchFinder() {
                   href={branch.googleMapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 py-3 px-4 rounded-full bg-slate-700 hover:bg-slate-600 text-slate-100 font-bold text-xs border border-slate-600 transition-colors"
+                  className="flex items-center justify-center gap-2 py-3 px-4 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs border border-slate-300 transition-colors"
                 >
-                  <Navigation className="w-4 h-4 text-[#38bdf8]" />
+                  <Navigation className="w-4 h-4 text-[#2563eb]" />
                   <span>Google Maps</span>
                 </a>
               </div>

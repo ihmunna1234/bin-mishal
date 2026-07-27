@@ -44,7 +44,7 @@ const servicesData: Record<string, ServiceDetail> = {
     titleBn: '২০২৬ উমরাহ প্যাকেজ, হোটেল বুকিং ও নুশুক পারমিট',
     category: 'Umrah & Tourism',
     icon: Moon,
-    heroBg: 'from-[#1e3a8a] via-[#1d4ed8] to-[#2563eb]',
+    heroBg: 'from-[#e0f2fe] via-[#f0f9ff] to-white',
     description:
       'Complete end-to-end Umrah visa issuance, Nusuk Rawdah Al-Sharifa permits, 5-star & 3-star hotel reservations in Makkah & Madinah, and luxury private GMC / VIP bus transport for Saudi expatriates and international pilgrims.',
     descriptionBn:
@@ -83,7 +83,7 @@ const servicesData: Record<string, ServiceDetail> = {
     titleBn: 'পাসপোর্ট তথ্য (মালুমাত) ও আবশের আপডেট সার্ভিস',
     category: 'Passport Services',
     icon: FileCheck,
-    heroBg: 'from-slate-950 via-[#1e3a8a] to-slate-900',
+    heroBg: 'from-[#e0f2fe] via-[#f0f9ff] to-white',
     description:
       'Express passport information update (Malumat) on Jawazat and Absher systems following passport renewal, lost passport reissuance, or data correction in Saudi Arabia.',
     descriptionBn:
@@ -116,7 +116,7 @@ const servicesData: Record<string, ServiceDetail> = {
     titleBn: 'এমআইএসএ (MISA) ইনভেস্টর লাইসেন্স ও সিআর রেজিস্ট্রেশন',
     category: 'Business & Investment',
     icon: Building2,
-    heroBg: 'from-[#1e3a8a] via-slate-950 to-[#2563eb]',
+    heroBg: 'from-[#e0f2fe] via-[#f0f9ff] to-white',
     description:
       'Comprehensive setup for foreign entrepreneurs establishing 100% foreign-owned business entities in Saudi Arabia under Ministry of Investment (MISA) regulations, Commercial Registration (CR), and corporate bank accounts.',
     descriptionBn:
@@ -146,7 +146,7 @@ const servicesData: Record<string, ServiceDetail> = {
     titleBn: 'কিওয়া (Qiwa) কফিল পরিবর্তন ও স্পন্সরশিপ ট্রান্সফার',
     category: 'Labor & Visas',
     icon: Briefcase,
-    heroBg: 'from-slate-950 via-[#1e3a8a] to-slate-950',
+    heroBg: 'from-[#e0f2fe] via-[#f0f9ff] to-white',
     description:
       'Expat labor transfer resolution, Qiwa contract offer verification, Nitaqat compliance check, and Absher Kafeel transfer troubleshooting under Ministry of Human Resources & Social Development (HRSD).',
     descriptionBn:
@@ -193,29 +193,29 @@ function renderServiceDetail(
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
       {/* Service Hero Banner */}
-      <section className={`relative bg-gradient-to-b ${service.heroBg} text-white py-16 lg:py-24 overflow-hidden`}>
+      <section className={`relative bg-gradient-to-b ${service.heroBg} text-slate-900 py-16 lg:py-24 overflow-hidden border-b border-blue-100`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <Link
             href="/#services"
-            className="inline-flex items-center gap-2 text-xs font-bold text-sky-300 hover:text-white transition-colors mb-6"
+            className="inline-flex items-center gap-2 text-xs font-extrabold text-[#2563eb] hover:text-[#1d4ed8] transition-colors mb-6"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to All Services</span>
           </Link>
 
           <div className="max-w-3xl space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-900/80 border border-blue-600 text-sky-200 text-xs font-bold">
-              <Sparkles className="w-3.5 h-3.5 text-sky-300" />
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-[#2563eb] border border-blue-200 text-xs font-extrabold shadow-sm">
+              <Sparkles className="w-3.5 h-3.5 text-[#2563eb]" />
               <span>{service.category}</span>
             </div>
 
-            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
+            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
               {service.title}
             </h1>
 
-            <p className="text-sm sm:text-base text-sky-200 font-bold">{service.titleBn}</p>
+            <p className="text-sm sm:text-base text-[#2563eb] font-extrabold">{service.titleBn}</p>
 
-            <p className="text-xs sm:text-sm text-blue-100 leading-relaxed pt-2">
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed pt-2 font-medium">
               {service.description}
             </p>
 
@@ -226,7 +226,7 @@ function renderServiceDetail(
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-extrabold text-xs shadow-lg transition-transform hover:scale-105"
+                className="inline-flex items-center gap-2.5 px-8 py-4 rounded-full bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-extrabold text-xs shadow-lg shadow-blue-500/25 transition-transform hover:scale-105 cursor-pointer"
               >
                 <MessageSquare className="w-4 h-4 text-white" />
                 <span>Inquire on WhatsApp</span>
@@ -234,9 +234,9 @@ function renderServiceDetail(
 
               <a
                 href="tel:+966501112233"
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-semibold text-xs border border-white/20 backdrop-blur-sm"
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white hover:bg-slate-50 text-slate-900 font-extrabold text-xs border border-slate-200 shadow-sm"
               >
-                <PhoneCall className="w-4 h-4 text-sky-300" />
+                <PhoneCall className="w-4 h-4 text-[#2563eb]" />
                 <span>Call +966 50 111 2233</span>
               </a>
             </div>
@@ -258,32 +258,32 @@ function renderServiceDetail(
               </p>
             </div>
 
-            <div className="space-y-3 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+            <div className="space-y-3 bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm">
               {service.requirements.map((req, idx) => (
                 <div key={idx} className="flex items-start gap-3 text-xs text-slate-700">
                   <CheckCircle2 className="w-4.5 h-4.5 text-[#2563eb] shrink-0 mt-0.5" />
-                  <span className="font-medium leading-relaxed">{req}</span>
+                  <span className="font-semibold leading-relaxed">{req}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Process Timeline Card */}
-          <div className="lg:col-span-5 bg-slate-900 text-white p-8 rounded-3xl shadow-xl border border-slate-800 space-y-5">
-            <h3 className="text-lg font-bold text-white flex items-center gap-2 border-b border-slate-800 pb-3">
-              <Clock className="w-5 h-5 text-[#38bdf8]" />
+          {/* Process Timeline Card (Light Theme) */}
+          <div className="lg:col-span-5 bg-white text-slate-900 p-8 rounded-3xl shadow-xl border border-blue-100 space-y-5">
+            <h3 className="text-lg font-extrabold text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-3">
+              <Clock className="w-5 h-5 text-[#2563eb]" />
               Step-by-Step Application Flow
             </h3>
 
             <div className="space-y-4 text-xs">
               {service.processSteps.map((s, i) => (
                 <div key={i} className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-[#2563eb] text-white font-extrabold flex items-center justify-center shrink-0 text-xs">
+                  <div className="w-7 h-7 rounded-full bg-[#2563eb] text-white font-extrabold flex items-center justify-center shrink-0 text-xs shadow-sm">
                     {s.step}
                   </div>
                   <div>
-                    <h4 className="font-bold text-slate-100">{s.title}</h4>
-                    <p className="text-slate-400 text-[11px] mt-0.5">{s.desc}</p>
+                    <h4 className="font-extrabold text-slate-900">{s.title}</h4>
+                    <p className="text-slate-600 text-[11px] mt-0.5 font-medium">{s.desc}</p>
                   </div>
                 </div>
               ))}
@@ -304,7 +304,7 @@ function renderServiceDetail(
               return (
                 <div
                   key={idx}
-                  className="rounded-2xl bg-white border border-slate-200 overflow-hidden shadow-xs"
+                  className="rounded-2xl bg-white border border-slate-200 overflow-hidden shadow-2xs"
                 >
                   <button
                     onClick={() => setOpenFaqIndex(isOpen ? null : idx)}

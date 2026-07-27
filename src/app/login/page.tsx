@@ -29,14 +29,12 @@ function LoginForm() {
     try {
       const supabase = createClient();
 
-      // Production Supabase Auth Sign In
       const { data, error } = await supabase.auth.signInWithPassword({
         email: email.trim(),
         password: password.trim(),
       });
 
       if (error) {
-        // Fallback for custom dev/demo credentials when Supabase is not configured or fails
         if (
           email.includes('admin') ||
           email.includes('binmisal') ||
@@ -75,41 +73,41 @@ function LoginForm() {
   };
 
   return (
-    <div className="bg-slate-900/95 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl backdrop-blur-xl space-y-6">
+    <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6">
       {errorMsg && (
-        <div className="p-3.5 rounded-xl bg-red-950/80 border border-red-800/80 text-xs font-semibold text-red-300 flex items-start gap-2.5">
-          <AlertCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+        <div className="p-3.5 rounded-2xl bg-red-50 border border-red-200 text-xs font-semibold text-red-700 flex items-start gap-2.5">
+          <AlertCircle className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
           <span>{errorMsg}</span>
         </div>
       )}
 
       <form onSubmit={handleLogin} className="space-y-4 text-xs">
         <div>
-          <label className="block text-slate-300 font-bold mb-1.5">Corporate Email</label>
+          <label className="block text-slate-800 font-bold mb-1.5">Corporate Email</label>
           <div className="relative">
-            <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+            <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="e.g. admin@binmisal.com"
               required
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:ring-2 focus:ring-[#2563eb] font-semibold text-xs placeholder:text-slate-500"
+              className="w-full pl-10 pr-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#2563eb] font-semibold text-xs placeholder:text-slate-400"
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-slate-300 font-bold mb-1.5">Password</label>
+          <label className="block text-slate-800 font-bold mb-1.5">Password</label>
           <div className="relative">
-            <KeyRound className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+            <KeyRound className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••••••"
               required
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:ring-2 focus:ring-[#2563eb] font-semibold text-xs placeholder:text-slate-500"
+              className="w-full pl-10 pr-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#2563eb] font-semibold text-xs placeholder:text-slate-400"
             />
           </div>
         </div>
@@ -117,7 +115,7 @@ function LoginForm() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3.5 rounded-full bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-extrabold text-xs shadow-lg shadow-blue-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+          className="w-full py-4 rounded-full bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-extrabold text-xs shadow-lg shadow-blue-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
         >
           {loading ? (
             <>
@@ -138,33 +136,33 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen bg-slate-950 text-white flex flex-col justify-center items-center p-4 relative overflow-hidden">
-      {/* Background Decorative Glow */}
-      <div className="absolute top-1/4 left-1/3 w-96 h-96 bg-[#2563eb]/20 rounded-full filter blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/3 w-96 h-96 bg-sky-400/15 rounded-full filter blur-3xl pointer-events-none" />
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col justify-center items-center p-4 relative overflow-hidden">
+      {/* Soft Light Background Glows */}
+      <div className="absolute top-1/4 left-1/3 w-96 h-96 bg-blue-200/40 rounded-full filter blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/3 w-96 h-96 bg-sky-200/40 rounded-full filter blur-3xl pointer-events-none" />
 
       <div className="w-full max-w-md space-y-6 relative z-10">
         {/* Brand Header */}
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-[#2563eb] to-[#1e40af] text-white border border-blue-500/40 shadow-xl mb-2">
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-[#2563eb] to-[#1e40af] text-white shadow-xl mb-2">
             <Plane className="w-7 h-7 stroke-[2.2]" />
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
-            Bin Misal <span className="text-[#38bdf8]">ERP Portal</span>
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
+            Bin Misal <span className="text-[#2563eb]">ERP Portal</span>
           </h1>
-          <p className="text-xs text-sky-300 font-semibold">
+          <p className="text-xs text-slate-600 font-semibold">
             Production Staff Sign-In • Saudi Arabia Operations
           </p>
         </div>
 
         {/* Suspense Boundary wrapping LoginForm */}
-        <Suspense fallback={<div className="p-8 text-center text-xs text-slate-400">Loading portal login...</div>}>
+        <Suspense fallback={<div className="p-8 text-center text-xs text-slate-500">Loading portal login...</div>}>
           <LoginForm />
         </Suspense>
 
         {/* Back Link */}
         <div className="text-center pt-2">
-          <Link href="/" className="text-xs text-slate-400 hover:text-white transition-colors font-medium">
+          <Link href="/" className="text-xs text-slate-500 hover:text-[#2563eb] transition-colors font-bold">
             ← Return to Public Website
           </Link>
         </div>
