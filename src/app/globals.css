@@ -4,71 +4,63 @@
 
 @layer base {
   :root {
+    --color-azure-primary: #2563eb;
+    --color-azure-dark: #1d4ed8;
+    --color-azure-deep: #1e3a8a;
     --color-emerald-primary: #0F6C44;
-    --color-emerald-deep: #064e3b;
-    --color-emerald-dark: #0A4B2F;
     --color-gold-accent: #D4AF37;
-    --color-gold-bright: #E5C158;
     --color-slate-dark: #0f172a;
-    --color-off-white: #F8FAFC;
+    --color-off-white: #f8fafc;
   }
 
   body {
-    @apply bg-slate-50 text-slate-900 antialiased font-sans selection:bg-[#0F6C44] selection:text-white;
+    @apply bg-slate-50 text-slate-900 antialiased font-sans selection:bg-[#2563eb] selection:text-white;
   }
 }
 
-/* Custom Glassmorphism & Color Theme Utilities */
-.bg-saudi-emerald {
-  background-color: #0F6C44;
+/* SkyWings / Azure Electric Color Theme Utilities */
+.bg-azure-primary {
+  background-color: #2563eb;
 }
 
-.bg-saudi-emerald-deep {
-  background-color: #064e3b;
+.bg-azure-dark {
+  background-color: #1d4ed8;
 }
 
-.text-saudi-gold {
-  color: #D4AF37;
+.text-azure-primary {
+  color: #2563eb;
 }
 
-.bg-saudi-gold {
-  background-color: #D4AF37;
+.border-azure-primary {
+  border-color: #2563eb;
 }
 
-.border-saudi-emerald {
-  border-color: #0F6C44;
+.azure-gradient-bg {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 50%, #1d4ed8 100%);
 }
 
-.border-saudi-gold {
-  border-color: #D4AF37;
-}
-
-.glass-panel {
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-}
-
-.glass-panel-dark {
-  background: rgba(6, 78, 59, 0.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(212, 175, 55, 0.25);
-}
-
-.emerald-gradient {
-  background: linear-gradient(135deg, #064e3b 0%, #0F6C44 50%, #0A4B2F 100%);
-}
-
-.gold-gradient-text {
-  background: linear-gradient(135deg, #E5C158 0%, #D4AF37 100%);
+.azure-gradient-text {
+  background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.gold-gradient-bg {
-  background: linear-gradient(135deg, #E5C158 0%, #D4AF37 100%);
+.azure-pill-btn {
+  @apply bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-extrabold px-6 py-3 rounded-full shadow-lg shadow-blue-500/25 transition-all transform hover:scale-[1.02] active:scale-[0.98];
+}
+
+.glass-panel-light {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.glass-panel-azure {
+  background: linear-gradient(135deg, rgba(224, 242, 254, 0.9) 0%, rgba(240, 249, 255, 0.95) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(186, 230, 253, 0.8);
 }
 
 /* Scrollbar Customization */
@@ -84,7 +76,7 @@
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #0F6C44;
+  background: #2563eb;
 }
 
 /* Utility classes */

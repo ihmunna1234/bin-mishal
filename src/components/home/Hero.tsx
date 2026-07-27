@@ -12,173 +12,149 @@ import {
   Sparkles,
   ArrowRight,
   MapPin,
+  Compass,
+  CheckCircle2,
 } from 'lucide-react';
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-[#064e3b] via-[#0F6C44] to-slate-950 text-white pt-12 pb-20 lg:pt-20 lg:pb-28">
-      {/* Background Decorative Glow Elements */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#148C59]/20 rounded-full filter blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-10 w-96 h-96 bg-[#D4AF37]/15 rounded-full filter blur-3xl pointer-events-none" />
-
+    <section className="relative overflow-hidden bg-slate-50 text-slate-900 pt-8 pb-16 lg:pt-12 lg:pb-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Left Content Column */}
-          <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-            {/* Trust Badge Pill */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0A4B2F]/80 border border-[#D4AF37]/50 text-[#E5C158] text-xs font-bold shadow-inner">
-              <Sparkles className="w-4 h-4 text-[#D4AF37]" />
-              <span>Licensed Saudi Travel & Expat Desk • EST. 2010</span>
-            </div>
+        {/* Soft Azure Sky Hero Card Container matching attached design */}
+        <div className="relative rounded-[2.5rem] bg-gradient-to-br from-[#e0f2fe] via-[#f0f9ff] to-white border border-blue-100 p-8 sm:p-12 lg:p-16 shadow-xl shadow-blue-500/5 overflow-hidden">
+          {/* Subtle Ambient Background Orbs */}
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-400/10 rounded-full filter blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-sky-300/15 rounded-full filter blur-3xl pointer-events-none" />
 
-            {/* Main Headline */}
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
-              Trusted Expat & Travel Services in{' '}
-              <span className="gold-gradient-text drop-shadow-sm">Saudi Arabia</span>
-            </h1>
-
-            {/* Multilingual Subtitle */}
-            <p className="text-base sm:text-lg text-emerald-100/90 max-w-2xl font-normal leading-relaxed">
-              সৌদি আরবে আপনার <span className="text-[#E5C158] font-bold">উমরাহ ভিসা, বিমান টিকিট, পাসপোর্ট তথ্য (মালুমাত), ইনভেস্টর লাইসেন্স</span> এবং কফিল ট্রান্সফার সংক্রান্ত সব জটিল সেবার সমাধান।
-            </p>
-
-            {/* Quick Action Category Badges */}
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2.5 pt-2">
-              <a
-                href="#tracker"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0A4B2F]/80 hover:bg-[#0F6C44] text-xs text-emerald-100 border border-emerald-600/60 transition-colors"
-              >
-                <FileText className="w-3.5 h-3.5 text-[#D4AF37]" />
-                <span>Passport Malumat</span>
-              </a>
-              <a
-                href="#services"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0A4B2F]/80 hover:bg-[#0F6C44] text-xs text-emerald-100 border border-emerald-600/60 transition-colors"
-              >
-                <Moon className="w-3.5 h-3.5 text-[#D4AF37]" />
-                <span>Umrah Packages</span>
-              </a>
-              <a
-                href="#services"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0A4B2F]/80 hover:bg-[#0F6C44] text-xs text-emerald-100 border border-emerald-600/60 transition-colors"
-              >
-                <Plane className="w-3.5 h-3.5 text-[#D4AF37]" />
-                <span>Flight Tickets</span>
-              </a>
-              <a
-                href="#services"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0A4B2F]/80 hover:bg-[#0F6C44] text-xs text-emerald-100 border border-emerald-600/60 transition-colors"
-              >
-                <Building className="w-3.5 h-3.5 text-[#D4AF37]" />
-                <span>MISA License</span>
-              </a>
-            </div>
-
-            {/* Primary Action Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
-              <a
-                href="#tracker"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-2xl gold-gradient-bg text-slate-950 font-extrabold text-sm shadow-lg shadow-amber-500/20 transition-all hover:scale-[1.02]"
-              >
-                <Search className="w-4 h-4 stroke-[2.5]" />
-                <span>Track Application Status</span>
-                <ArrowRight className="w-4 h-4" />
-              </a>
-
-              <a
-                href="https://wa.me/966501112233"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-[#0A4B2F]/90 hover:bg-[#0F6C44] text-white font-bold text-sm border border-emerald-600 transition-all"
-              >
-                <MessageSquare className="w-4.5 h-4.5 text-[#D4AF37]" />
-                <span>Chat on WhatsApp</span>
-              </a>
-            </div>
-
-            {/* Trust Metrics Bar */}
-            <div className="grid grid-cols-3 gap-4 pt-6 border-t border-emerald-800/60 max-w-lg mx-auto lg:mx-0">
-              <div className="text-center lg:text-left">
-                <p className="text-2xl font-extrabold text-[#E5C158]">15+</p>
-                <p className="text-xs text-emerald-200">Years Experience</p>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+            {/* Left Column Text Content */}
+            <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
+              {/* Top Category Badge */}
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-[#2563eb] text-xs font-bold shadow-sm border border-blue-200">
+                <Sparkles className="w-4 h-4 text-[#2563eb]" />
+                <span className="uppercase tracking-wider">ELEVATE YOUR TRAVEL JOURNEY</span>
               </div>
-              <div className="text-center lg:text-left">
-                <p className="text-2xl font-extrabold text-[#E5C158]">50K+</p>
-                <p className="text-xs text-emerald-200">Expats Serviced</p>
+
+              {/* Headline */}
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-[1.15]">
+                Experience The Magic Of <span className="text-[#2563eb]">Flight & Travel!</span>
+              </h1>
+
+              {/* Subtitle */}
+              <p className="text-base sm:text-lg text-slate-600 max-w-2xl font-medium leading-relaxed">
+                সৌদি আরবে আপনার <span className="text-[#2563eb] font-extrabold">উমরাহ ভিসা, বিমান টিকিট, পাসপোর্ট তথ্য (মালুমাত), ইনভেস্টর লাইসেন্স</span> এবং প্রবাসী সরকারি সকল সেবার একমাত্র নির্ভরযোগ্য প্রতিষ্ঠান।
+              </p>
+
+              {/* Action Buttons with Electric Blue Pill Styling */}
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+                <a
+                  href="#services"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-extrabold text-sm shadow-xl shadow-blue-500/25 transition-all transform hover:scale-[1.02]"
+                >
+                  <span>Book A Trip Now</span>
+                  <div className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center">
+                    <ArrowRight className="w-4 h-4 text-white" />
+                  </div>
+                </a>
+
+                <a
+                  href="#tracker"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-full bg-white hover:bg-slate-50 text-slate-900 font-extrabold text-sm border border-slate-200 shadow-md transition-all"
+                >
+                  <Search className="w-4 h-4 text-[#2563eb]" />
+                  <span>Track Application</span>
+                </a>
               </div>
-              <div className="text-center lg:text-left">
-                <p className="text-2xl font-extrabold text-[#E5C158]">4 KSA</p>
-                <p className="text-xs text-emerald-200">Major Branches</p>
+
+              {/* Partner Badges / Features */}
+              <div className="pt-6 border-t border-blue-200/60 grid grid-cols-3 gap-4 max-w-lg mx-auto lg:mx-0 text-center lg:text-left">
+                <div>
+                  <p className="text-2xl font-extrabold text-[#2563eb]">15+</p>
+                  <p className="text-xs font-semibold text-slate-600">Years Experience</p>
+                </div>
+                <div>
+                  <p className="text-2xl font-extrabold text-[#2563eb]">50K+</p>
+                  <p className="text-xs font-semibold text-slate-600">Happy Travelers</p>
+                </div>
+                <div>
+                  <p className="text-2xl font-extrabold text-[#2563eb]">4 KSA</p>
+                  <p className="text-xs font-semibold text-slate-600">Major Branches</p>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Right Highlight Card Column */}
-          <div className="lg:col-span-5 relative">
-            {/* Visual Glassmorphism Hero Card */}
-            <div className="relative rounded-3xl bg-gradient-to-b from-slate-900/90 to-[#064e3b]/90 border border-[#D4AF37]/30 p-6 sm:p-8 shadow-2xl backdrop-blur-xl">
-              {/* Top Card Badge */}
-              <div className="flex items-center justify-between pb-4 border-b border-emerald-800/80">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-emerald-400 animate-ping" />
-                  <span className="text-xs font-bold text-emerald-300 uppercase tracking-wider">
-                    Bin Misal Direct Desk
+            {/* Right Card / Visual Column matching image layout */}
+            <div className="lg:col-span-5 relative">
+              <div className="relative rounded-3xl bg-white p-6 sm:p-8 shadow-2xl border border-blue-100 space-y-6">
+                {/* Header Badge inside card */}
+                <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+                  <div className="flex items-center gap-2">
+                    <div className="w-10 h-10 rounded-2xl bg-blue-50 text-[#2563eb] flex items-center justify-center font-bold">
+                      <Plane className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-extrabold text-slate-900">Bin Misal SkyDesk</h4>
+                      <p className="text-[11px] text-slate-500 font-medium">Saudi Arabia & Worldwide</p>
+                    </div>
+                  </div>
+                  <span className="text-[11px] font-extrabold text-[#2563eb] bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
+                    24/7 Active
                   </span>
                 </div>
-                <span className="text-xs text-[#E5C158] bg-amber-950/80 px-2.5 py-1 rounded-md border border-[#D4AF37]/40 font-bold">
-                  Instant Support
-                </span>
-              </div>
 
-              {/* Service Features Highlights */}
-              <div className="py-5 space-y-4">
-                <div className="flex items-start gap-3.5 p-3.5 rounded-2xl bg-[#064e3b]/50 border border-emerald-800/50">
-                  <div className="p-2 rounded-xl bg-[#0A4B2F] text-[#D4AF37] shrink-0">
-                    <FileText className="w-5 h-5" />
+                {/* Services Checklist Cards */}
+                <div className="space-y-3">
+                  <div className="p-4 rounded-2xl bg-slate-50 hover:bg-blue-50/50 border border-slate-200/80 transition-colors flex items-start gap-3">
+                    <div className="w-8 h-8 rounded-xl bg-[#2563eb] text-white flex items-center justify-center shrink-0 mt-0.5">
+                      <FileText className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h5 className="text-xs font-extrabold text-slate-900">Passport Malumat (Absher)</h5>
+                      <p className="text-[11px] text-slate-600 mt-0.5">
+                        Instant Jawazat portal updating for new Bangladeshi passports.
+                      </p>
+                    </div>
                   </div>
+
+                  <div className="p-4 rounded-2xl bg-slate-50 hover:bg-blue-50/50 border border-slate-200/80 transition-colors flex items-start gap-3">
+                    <div className="w-8 h-8 rounded-xl bg-[#2563eb] text-white flex items-center justify-center shrink-0 mt-0.5">
+                      <Moon className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h5 className="text-xs font-extrabold text-slate-900">Umrah & Nusuk Permits</h5>
+                      <p className="text-[11px] text-slate-600 mt-0.5">
+                        Makkah & Madinah 5-star hotel bookings and Rawdah permits.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="p-4 rounded-2xl bg-slate-50 hover:bg-blue-50/50 border border-slate-200/80 transition-colors flex items-start gap-3">
+                    <div className="w-8 h-8 rounded-xl bg-[#2563eb] text-white flex items-center justify-center shrink-0 mt-0.5">
+                      <Building className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h5 className="text-xs font-extrabold text-slate-900">MISA Investor License</h5>
+                      <p className="text-[11px] text-slate-600 mt-0.5">
+                        100% foreign business ownership setup in Saudi Arabia.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Floating "Know More" Card */}
+                <div className="p-4 rounded-2xl bg-gradient-to-r from-[#2563eb] to-[#1d4ed8] text-white flex items-center justify-between shadow-lg">
                   <div>
-                    <h4 className="text-sm font-bold text-white">Passport Malumat & Iqama Update</h4>
-                    <p className="text-xs text-slate-300 mt-0.5">
-                      Fast tracking of passport information update on Jawazat/Absher portal.
-                    </p>
+                    <p className="text-xs font-extrabold">Awesome Destinations</p>
+                    <p className="text-[10px] text-blue-100">Discover packages to Makkah, Madinah & worldwide.</p>
                   </div>
-                </div>
-
-                <div className="flex items-start gap-3.5 p-3.5 rounded-2xl bg-[#064e3b]/50 border border-emerald-800/50">
-                  <div className="p-2 rounded-xl bg-[#0A4B2F] text-[#D4AF37] shrink-0">
-                    <Moon className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-white">Umrah Packages & Nusuk Permit</h4>
-                    <p className="text-xs text-slate-300 mt-0.5">
-                      Full arrangement for Makkah & Madinah hotel, transport, and Rawdah permits.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3.5 p-3.5 rounded-2xl bg-[#064e3b]/50 border border-emerald-800/50">
-                  <div className="p-2 rounded-xl bg-[#0A4B2F] text-[#D4AF37] shrink-0">
-                    <Building className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-white">MISA Investor License & CR</h4>
-                    <p className="text-xs text-slate-300 mt-0.5">
-                      100% legal business setup and investor licensing in Saudi Arabia.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Branch Quick Indicator */}
-              <div className="pt-3 border-t border-emerald-800/60 flex items-center justify-between text-xs text-slate-300">
-                <div className="flex items-center gap-1.5 text-[#D4AF37]">
-                  <MapPin className="w-4 h-4" />
-                  <span className="font-bold text-slate-200">Branches:</span>
-                </div>
-                <div className="flex gap-2 text-xs text-emerald-200">
-                  <span className="bg-[#0A4B2F] px-2.5 py-0.5 rounded-md border border-emerald-700 font-semibold">Riyadh</span>
-                  <span className="bg-[#0A4B2F] px-2.5 py-0.5 rounded-md border border-emerald-700 font-semibold">Dammam</span>
-                  <span className="bg-[#0A4B2F] px-2.5 py-0.5 rounded-md border border-emerald-700 font-semibold">Madinah</span>
+                  <a
+                    href="https://wa.me/966501112233"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2 rounded-xl bg-white/20 hover:bg-white/30 text-white transition-colors"
+                  >
+                    <ArrowRight className="w-4 h-4" />
+                  </a>
                 </div>
               </div>
             </div>

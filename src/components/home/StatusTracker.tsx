@@ -33,7 +33,7 @@ const mockDatabase: Record<string, TrackedResult> = {
     client_phone: '+966551234567',
     service_category: 'Umrah',
     status: 'New',
-    branch_name: 'Riyadh Batha Head Office',
+    branch_name: 'Riyadh Batha Main Branch',
     created_at: '2026-07-26',
     notes: 'Family Umrah package inquiry for 5 adults starting next Friday.',
     steps: [
@@ -49,7 +49,7 @@ const mockDatabase: Record<string, TrackedResult> = {
     client_phone: '+966569876543',
     service_category: 'MISA Investor License',
     status: 'Processing',
-    branch_name: 'Riyadh Batha Head Office',
+    branch_name: 'Riyadh Batha Main Branch',
     created_at: '2026-07-24',
     notes: '100% foreign ownership investment company application under MISA.',
     steps: [
@@ -65,7 +65,7 @@ const mockDatabase: Record<string, TrackedResult> = {
     client_phone: '+966541122334',
     service_category: 'Flight Ticketing',
     status: 'Completed',
-    branch_name: 'Dammam Regional Branch',
+    branch_name: 'Dammam City Branch',
     created_at: '2026-07-20',
     notes: 'Direct flights Dammam to Dhaka round trip issued.',
     steps: [
@@ -89,22 +89,6 @@ const mockDatabase: Record<string, TrackedResult> = {
       { title: 'Document Verification', completed: true, current: false, date: '2026-07-23' },
       { title: 'Action Required: Submit Iqama Copy', completed: false, current: true },
       { title: 'MOFA Visa Stamping', completed: false, current: false },
-    ],
-  },
-  '100005': {
-    tracking_code: '100005',
-    client_name: 'Shahid Islam',
-    client_phone: '+966556677889',
-    service_category: 'Qiwa/Amel Issues',
-    status: 'Processing',
-    branch_name: 'Jeddah Al-Balad Branch',
-    created_at: '2026-07-25',
-    notes: 'Sponsor transfer contract pending approval on Qiwa portal.',
-    steps: [
-      { title: 'Transfer Request Submitted', completed: true, current: false, date: '2026-07-25' },
-      { title: 'Qiwa Contract Offer Verification', completed: true, current: false, date: '2026-07-26' },
-      { title: 'Awaiting Current Kafeel Approval', completed: false, current: true },
-      { title: 'Jawazat Transfer Complete', completed: false, current: false },
     ],
   },
 };
@@ -139,7 +123,7 @@ export default function StatusTracker() {
           client_phone: query.includes('+') ? query : '+966 5X XXX XXXX',
           service_category: 'Passport Malumat',
           status: 'Processing',
-          branch_name: 'Riyadh Batha Head Office',
+          branch_name: 'Riyadh Batha Main Branch',
           created_at: new Date().toISOString().split('T')[0],
           notes: 'Document received and registered on Absher / Jawazat system.',
           steps: [
@@ -164,8 +148,8 @@ export default function StatusTracker() {
         );
       case 'Processing':
         return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-900 border border-amber-300">
-            <Clock className="w-4 h-4 text-[#D4AF37] animate-spin" />
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-[#2563eb] border border-blue-300">
+            <Clock className="w-4 h-4 text-[#2563eb] animate-spin" />
             Processing
           </span>
         );
@@ -178,7 +162,7 @@ export default function StatusTracker() {
         );
       case 'New':
         return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-900 border border-blue-300">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-900 border border-blue-200">
             <Clock className="w-4 h-4 text-blue-600" />
             New Inquiry
           </span>
@@ -197,14 +181,14 @@ export default function StatusTracker() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto space-y-3 mb-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-100 text-[#064e3b] text-xs font-bold border border-emerald-300">
-            <ShieldCheck className="w-4 h-4 text-[#0F6C44]" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-100 text-[#2563eb] text-xs font-bold border border-blue-200">
+            <ShieldCheck className="w-4 h-4 text-[#2563eb]" />
             <span>Public Document & Passport Tracker</span>
           </div>
           <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">
             Track Application Status Real-Time
           </h2>
-          <p className="text-sm text-slate-600">
+          <p className="text-sm text-slate-600 font-medium">
             আপনার পাসপোর্টের মালুমাত, ভিসা, টিকিট বা ফাইল স্ট্যাটাস চেক করতে নিচে ৬ সংখ্যার ট্র্যাকিং কোড দিন।
           </p>
         </div>
@@ -227,14 +211,14 @@ export default function StatusTracker() {
                 value={searchCode}
                 onChange={(e) => setSearchCode(e.target.value)}
                 placeholder="Enter 6-Digit Tracking Code (e.g., 100001)"
-                className="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#0F6C44] focus:border-transparent text-slate-900 text-base font-bold placeholder:text-slate-400 placeholder:font-normal shadow-xs"
+                className="w-full pl-11 pr-4 py-3.5 rounded-full border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent text-slate-900 text-base font-bold placeholder:text-slate-400 placeholder:font-normal shadow-xs"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="px-8 py-3.5 rounded-2xl bg-[#0F6C44] hover:bg-[#0A4B2F] text-white font-extrabold text-sm shadow-md transition-all flex items-center justify-center gap-2 shrink-0 disabled:opacity-70"
+              className="px-8 py-3.5 rounded-full bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-extrabold text-sm shadow-md transition-all flex items-center justify-center gap-2 shrink-0 cursor-pointer disabled:opacity-70"
             >
               {loading ? (
                 <>
@@ -253,7 +237,7 @@ export default function StatusTracker() {
           {/* Quick Demo Sample Code Chips */}
           <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-slate-500">
             <span className="font-bold text-slate-700">Quick Test Samples:</span>
-            {['100001', '100002', '100003', '100004', '100005'].map((code) => (
+            {['100001', '100002', '100003', '100004'].map((code) => (
               <button
                 key={code}
                 type="button"
@@ -261,7 +245,7 @@ export default function StatusTracker() {
                   setSearchCode(code);
                   handleSearch(code);
                 }}
-                className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-emerald-100 hover:text-[#064e3b] text-slate-700 font-mono font-bold transition-colors border border-slate-200"
+                className="px-3 py-1 rounded-full bg-slate-100 hover:bg-blue-100 hover:text-[#2563eb] text-slate-700 font-mono font-bold transition-colors border border-slate-200 cursor-pointer"
               >
                 #{code}
               </button>
@@ -273,18 +257,18 @@ export default function StatusTracker() {
 
         {/* Search Result Drawer Card */}
         {searched && activeResult && (
-          <div className="bg-white rounded-3xl shadow-xl border border-emerald-200 overflow-hidden animate-in fade-in duration-300">
+          <div className="bg-white rounded-3xl shadow-xl border border-blue-200 overflow-hidden animate-in fade-in duration-300">
             {/* Result Header */}
-            <div className="bg-gradient-to-r from-[#064e3b] to-slate-900 text-white p-6 sm:p-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-emerald-800">
+            <div className="bg-gradient-to-r from-[#1e3a8a] to-[#2563eb] text-white p-6 sm:p-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-blue-800">
               <div>
                 <div className="flex items-center gap-3">
-                  <span className="font-mono text-2xl font-extrabold text-[#E5C158]">
+                  <span className="font-mono text-2xl font-extrabold text-white">
                     #{activeResult.tracking_code}
                   </span>
                   {getStatusBadge(activeResult.status)}
                 </div>
                 <h3 className="text-lg font-bold text-white mt-1">
-                  Service Category: <span className="text-emerald-300">{activeResult.service_category}</span>
+                  Service Category: <span className="text-sky-200">{activeResult.service_category}</span>
                 </h3>
               </div>
 
@@ -293,9 +277,9 @@ export default function StatusTracker() {
                   setSearched(false);
                   setActiveResult(null);
                 }}
-                className="text-xs text-slate-300 hover:text-white underline flex items-center gap-1 font-semibold"
+                className="text-xs text-slate-200 hover:text-white underline flex items-center gap-1 font-semibold cursor-pointer"
               >
-                <RotateCcw className="w-3.5 h-3.5 text-[#D4AF37]" />
+                <RotateCcw className="w-3.5 h-3.5 text-sky-300" />
                 <span>Search Another Code</span>
               </button>
             </div>
@@ -305,7 +289,7 @@ export default function StatusTracker() {
               {/* Meta Info Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs">
                 <div className="flex items-center gap-2.5">
-                  <User className="w-4 h-4 text-[#0F6C44]" />
+                  <User className="w-4 h-4 text-[#2563eb]" />
                   <div>
                     <span className="text-slate-400 block">Client Name</span>
                     <strong className="text-slate-800 text-sm">{activeResult.client_name}</strong>
@@ -313,7 +297,7 @@ export default function StatusTracker() {
                 </div>
 
                 <div className="flex items-center gap-2.5">
-                  <Building2 className="w-4 h-4 text-[#0F6C44]" />
+                  <Building2 className="w-4 h-4 text-[#2563eb]" />
                   <div>
                     <span className="text-slate-400 block">Assigned Branch</span>
                     <strong className="text-slate-800 text-sm">{activeResult.branch_name}</strong>
@@ -321,7 +305,7 @@ export default function StatusTracker() {
                 </div>
 
                 <div className="flex items-center gap-2.5">
-                  <Clock className="w-4 h-4 text-[#0F6C44]" />
+                  <Clock className="w-4 h-4 text-[#2563eb]" />
                   <div>
                     <span className="text-slate-400 block">Date Registered</span>
                     <strong className="text-slate-800 text-sm">{activeResult.created_at}</strong>
@@ -332,7 +316,7 @@ export default function StatusTracker() {
               {/* Progress Timeline */}
               <div>
                 <h4 className="text-sm font-extrabold text-slate-900 mb-4 flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-[#D4AF37]" />
+                  <Sparkles className="w-4 h-4 text-[#2563eb]" />
                   Processing Stage Timeline
                 </h4>
 
@@ -342,9 +326,9 @@ export default function StatusTracker() {
                       <div
                         className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-extrabold shrink-0 z-10 ${
                           step.completed
-                            ? 'bg-[#0F6C44] text-white ring-4 ring-emerald-100'
+                            ? 'bg-[#2563eb] text-white ring-4 ring-blue-100'
                             : step.current
-                            ? 'bg-[#D4AF37] text-slate-950 ring-4 ring-amber-100 animate-pulse'
+                            ? 'bg-[#38bdf8] text-slate-950 ring-4 ring-sky-100 animate-pulse'
                             : 'bg-slate-200 text-slate-500'
                         }`}
                       >
@@ -355,9 +339,9 @@ export default function StatusTracker() {
                         <p
                           className={`text-sm font-bold ${
                             step.completed
-                              ? 'text-[#064e3b]'
+                              ? 'text-[#2563eb]'
                               : step.current
-                              ? 'text-amber-900 font-extrabold'
+                              ? 'text-[#1e3a8a] font-extrabold'
                               : 'text-slate-400'
                           }`}
                         >
@@ -372,8 +356,8 @@ export default function StatusTracker() {
 
               {/* Remarks */}
               {activeResult.notes && (
-                <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-xs text-amber-950">
-                  <strong className="block font-extrabold text-amber-900 mb-1">Agent Processing Remarks:</strong>
+                <div className="p-4 rounded-2xl bg-blue-50 border border-blue-200 text-xs text-blue-950">
+                  <strong className="block font-extrabold text-blue-900 mb-1">Agent Processing Remarks:</strong>
                   <p className="leading-relaxed font-medium">{activeResult.notes}</p>
                 </div>
               )}

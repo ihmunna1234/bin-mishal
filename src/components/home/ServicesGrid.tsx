@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import {
   Moon,
@@ -98,18 +98,18 @@ const services = [
 
 export default function ServicesGrid() {
   return (
-    <section id="services" className="py-20 bg-white">
+    <section id="services" className="py-20 bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-3 mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-100 text-amber-900 text-xs font-bold border border-amber-300">
-            <Sparkles className="w-4 h-4 text-amber-600" />
-            <span>Enterprise Expat & Travel Solutions</span>
+        <div className="text-center max-w-3xl mx-auto space-y-3 mb-14">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-100 text-[#2563eb] text-xs font-bold border border-blue-200">
+            <Sparkles className="w-4 h-4 text-[#2563eb]" />
+            <span>Popular Travel & Expat Destinations</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Comprehensive Saudi Expat Services
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
+            Popular Services & Destinations
           </h2>
-          <p className="text-sm sm:text-base text-slate-600">
+          <p className="text-sm sm:text-base text-slate-600 font-medium">
             সৌদি আরবে প্রবাসী ভাইদের জন্য সর্বোচ্চ বিশ্বস্ততা ও নিরাপত্তার সাথে সব ধরণের সরকারি ও ভ্রমণ সেবা।
           </p>
         </div>
@@ -121,32 +121,32 @@ export default function ServicesGrid() {
             return (
               <div
                 key={service.id}
-                className="group relative rounded-2xl bg-slate-50 hover:bg-white p-7 border border-slate-200/80 hover:border-emerald-600/50 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+                className="group relative rounded-3xl bg-white p-7 border border-slate-200/80 hover:border-[#2563eb]/50 shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col justify-between"
               >
                 <div>
                   {/* Top Icon & Badge */}
                   <div className="flex items-center justify-between mb-5">
-                    <div className="w-12 h-12 rounded-xl bg-emerald-900 text-amber-400 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                    <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[#2563eb] flex items-center justify-center shadow-sm group-hover:bg-[#2563eb] group-hover:text-white transition-all">
                       <Icon className="w-6 h-6 stroke-[2.2]" />
                     </div>
-                    <span className="text-[11px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">
+                    <span className="text-[11px] font-extrabold uppercase tracking-wider px-3 py-1 rounded-full bg-blue-100 text-[#2563eb] border border-blue-200">
                       {service.badge}
                     </span>
                   </div>
 
                   {/* Titles */}
-                  <h3 className="text-lg font-extrabold text-slate-900 group-hover:text-emerald-800 transition-colors">
+                  <h3 className="text-lg font-extrabold text-slate-900 group-hover:text-[#2563eb] transition-colors">
                     {service.title}
                   </h3>
-                  <p className="text-xs font-bold text-amber-600 mb-3">{service.titleBn}</p>
+                  <p className="text-xs font-bold text-[#2563eb] mb-3">{service.titleBn}</p>
 
                   <p className="text-xs text-slate-600 leading-relaxed mb-5">{service.desc}</p>
 
                   {/* Highlights Bullet List */}
-                  <ul className="space-y-2 mb-6 border-t border-slate-200/80 pt-4">
+                  <ul className="space-y-2 mb-6 border-t border-slate-100 pt-4">
                     {service.highlights.map((h, i) => (
                       <li key={i} className="text-xs text-slate-700 font-medium flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#2563eb] shrink-0" />
                         <span>{h}</span>
                       </li>
                     ))}
@@ -157,10 +157,10 @@ export default function ServicesGrid() {
                 <div className="space-y-2 pt-2">
                   <Link
                     href={`/services/${service.slug}`}
-                    className="w-full inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-900 font-bold text-xs transition-colors"
+                    className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs transition-colors"
                   >
-                    <span>View Requirements & Details</span>
-                    <ExternalLink className="w-3.5 h-3.5 text-slate-600" />
+                    <span>View Requirements</span>
+                    <ExternalLink className="w-3.5 h-3.5 text-slate-500" />
                   </Link>
 
                   <a
@@ -169,9 +169,9 @@ export default function ServicesGrid() {
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-emerald-800 group-hover:bg-emerald-700 text-white font-bold text-xs shadow-sm transition-all"
+                    className="w-full inline-flex items-center justify-center gap-2 py-3 px-5 rounded-full bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-extrabold text-xs shadow-md shadow-blue-500/20 transition-all"
                   >
-                    <MessageSquare className="w-4 h-4 text-amber-300" />
+                    <MessageSquare className="w-4 h-4 text-white" />
                     <span>Inquire on WhatsApp</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </a>
