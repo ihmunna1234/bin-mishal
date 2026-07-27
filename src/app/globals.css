@@ -49,9 +49,7 @@
 }
 
 .azure-gradient-text {
-  background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  @apply text-[#2563eb];
 }
 
 .azure-pill-btn {

@@ -202,14 +202,14 @@ export default function Header() {
           <Link
             href="/#services"
             onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2 rounded-md font-medium text-slate-800 hover:bg-blue-50 hover:text-[#2563eb]"
+            className="block px-3.5 py-2.5 rounded-xl font-bold text-slate-900 hover:bg-[#2563eb] hover:text-white"
           >
             {t.services}
           </Link>
           <Link
             href="/#branches"
             onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2 rounded-md font-medium text-slate-800 hover:bg-blue-50 hover:text-[#2563eb]"
+            className="block px-3.5 py-2.5 rounded-xl font-bold text-slate-900 hover:bg-[#2563eb] hover:text-white"
           >
             {t.branches}
           </Link>

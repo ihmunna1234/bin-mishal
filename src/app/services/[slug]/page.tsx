@@ -249,11 +249,14 @@ function renderServiceDetail(
         {/* Requirements & Document Checklist */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           <div className="lg:col-span-7 space-y-6">
-            <div className="border-l-4 border-[#2563eb] pl-4">
+            <div className="space-y-1">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-[#2563eb] text-xs font-extrabold mb-1">
+                <span>Checklist & Guidelines</span>
+              </div>
               <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
                 Required Documents & Guidelines
               </h2>
-              <p className="text-xs text-slate-500 mt-0.5 font-medium">
+              <p className="text-xs text-slate-500 font-medium">
                 Ensure all documents are ready for submission at Riyadh, Dammam, or Madinah branches.
               </p>
             </div>

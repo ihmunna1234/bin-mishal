@@ -295,11 +295,11 @@ export default function InquiriesPage() {
             <span>Create New Lead</span>
           </button>
 
-          <div className="bg-slate-950 p-1 rounded-xl border border-slate-800 flex items-center gap-1">
+          <div className="bg-slate-100 p-1 rounded-2xl border border-slate-200 flex items-center gap-1">
             <button
               onClick={() => setViewMode('kanban')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
-                viewMode === 'kanban' ? 'bg-emerald-800 text-amber-300' : 'text-slate-400 hover:text-white'
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-colors cursor-pointer ${
+                viewMode === 'kanban' ? 'bg-[#2563eb] text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               <KanbanSquare className="w-3.5 h-3.5" />
@@ -307,8 +307,8 @@ export default function InquiriesPage() {
             </button>
             <button
               onClick={() => setViewMode('table')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
-                viewMode === 'table' ? 'bg-emerald-800 text-amber-300' : 'text-slate-400 hover:text-white'
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-colors cursor-pointer ${
+                viewMode === 'table' ? 'bg-[#2563eb] text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               <TableIcon className="w-3.5 h-3.5" />

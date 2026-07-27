@@ -181,7 +181,7 @@ export default function AdminLayout({
                   key={item.href}
                   href={item.href}
                   onClick={() => setMobileSidebarOpen(false)}
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-slate-700 hover:bg-blue-50 hover:text-[#2563eb]"
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-slate-900 hover:bg-[#2563eb] hover:text-white"
                 >
                   <Icon className="w-5 h-5 text-[#2563eb]" />
                   <span>{item.label}</span>

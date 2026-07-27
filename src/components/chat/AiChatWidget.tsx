@@ -218,7 +218,7 @@ export default function AiChatWidget() {
               <button
                 key={idx}
                 onClick={() => handleSend(chip.prompt)}
-                className="shrink-0 px-3.5 py-1 rounded-full bg-white hover:bg-blue-100 hover:text-[#2563eb] text-[11px] font-bold text-slate-700 border border-slate-200 shadow-2xs transition-colors whitespace-nowrap cursor-pointer"
+                className="shrink-0 px-3.5 py-1 rounded-full bg-white hover:bg-[#2563eb] hover:text-white text-[11px] font-bold text-slate-900 border border-slate-200 shadow-2xs transition-colors whitespace-nowrap cursor-pointer"
               >
                 {chip.label}
               </button>
@@ -308,11 +308,11 @@ export default function AiChatWidget() {
             ))}
 
             {isTyping && (
-              <div className="flex items-center gap-2 text-slate-400 text-xs italic pl-9">
+              <div className="flex items-center gap-2 text-slate-500 text-xs font-medium italic pl-9">
                 <div className="flex gap-1">
-                  <span className="w-1.5 h-1.5 bg-[#2563eb] rounded-full animate-bounce" />
-                  <span className="w-1.5 h-1.5 bg-[#2563eb] rounded-full animate-bounce [animation-delay:0.2s]" />
-                  <span className="w-1.5 h-1.5 bg-[#2563eb] rounded-full animate-bounce [animation-delay:0.4s]" />
+                  <span className="w-1.5 h-1.5 bg-[#2563eb] rounded-full animate-pulse" />
+                  <span className="w-1.5 h-1.5 bg-[#2563eb] rounded-full animate-pulse [animation-delay:0.2s]" />
+                  <span className="w-1.5 h-1.5 bg-[#2563eb] rounded-full animate-pulse [animation-delay:0.4s]" />
                 </div>
                 <span>Searching vector store & routing query...</span>
               </div>

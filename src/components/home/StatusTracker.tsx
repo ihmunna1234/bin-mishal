@@ -245,7 +245,7 @@ export default function StatusTracker() {
                   setSearchCode(code);
                   handleSearch(code);
                 }}
-                className="px-3 py-1 rounded-full bg-slate-100 hover:bg-blue-100 hover:text-[#2563eb] text-slate-700 font-mono font-bold transition-colors border border-slate-200 cursor-pointer"
+                className="px-3.5 py-1 rounded-full bg-slate-100 hover:bg-[#2563eb] hover:text-white text-slate-900 font-mono font-bold transition-colors border border-slate-200 cursor-pointer"
               >
                 #{code}
               </button>
