@@ -143,49 +143,49 @@ export default function AiChatWidget() {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="relative group flex items-center gap-3 px-4 py-3.5 rounded-full bg-gradient-to-r from-[#064e3b] via-[#0F6C44] to-slate-950 text-white shadow-2xl hover:shadow-[#0F6C44]/50 border border-[#D4AF37]/50 transition-all duration-300 hover:scale-105"
+          className="relative group flex items-center gap-3 px-5 py-3.5 rounded-full bg-gradient-to-r from-[#1e3a8a] via-[#2563eb] to-[#1d4ed8] text-white shadow-2xl hover:shadow-blue-500/50 border border-blue-400/40 transition-all duration-300 hover:scale-105 cursor-pointer"
           aria-label="Open AI Travel Assistant Chat"
         >
           <div className="relative">
-            <Bot className="w-6 h-6 text-[#D4AF37] animate-pulse" />
+            <Bot className="w-6 h-6 text-[#38bdf8] animate-pulse" />
             {unreadCount > 0 && (
-              <span className="absolute -top-2 -right-2 w-5 h-5 bg-[#D4AF37] text-slate-950 font-extrabold text-[10px] rounded-full flex items-center justify-center border-2 border-[#064e3b]">
+              <span className="absolute -top-2 -right-2 w-5 h-5 bg-[#38bdf8] text-slate-950 font-extrabold text-[10px] rounded-full flex items-center justify-center border-2 border-[#1e3a8a]">
                 {unreadCount}
               </span>
             )}
           </div>
           <div className="text-left hidden sm:block">
-            <p className="text-xs font-extrabold text-[#E5C158]">Saudi Travel AI Desk</p>
-            <p className="text-[10px] text-emerald-200">Ask in Bengali & English</p>
+            <p className="text-xs font-extrabold text-white">Saudi Travel AI Desk</p>
+            <p className="text-[10px] text-sky-200">Ask in Bengali & English</p>
           </div>
         </button>
       )}
 
       {/* Expanded Chat Window */}
       {isOpen && (
-        <div className="w-[92vw] sm:w-[420px] h-[560px] bg-white rounded-3xl shadow-2xl border border-emerald-200 flex flex-col overflow-hidden animate-in slide-in-from-bottom-5 duration-300">
+        <div className="w-[92vw] sm:w-[420px] h-[560px] bg-white rounded-3xl shadow-2xl border border-blue-200 flex flex-col overflow-hidden animate-in slide-in-from-bottom-5 duration-300">
           {/* Header */}
-          <div className="bg-gradient-to-r from-[#064e3b] via-[#0F6C44] to-slate-900 text-white p-4 flex items-center justify-between border-b border-emerald-800">
+          <div className="bg-gradient-to-r from-[#1e3a8a] via-[#2563eb] to-[#1d4ed8] text-white p-4 flex items-center justify-between border-b border-blue-800">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-[#D4AF37]/20 text-[#D4AF37] flex items-center justify-center border border-[#D4AF37]/40">
-                <Bot className="w-5 h-5" />
+              <div className="w-9 h-9 rounded-xl bg-white/20 text-[#38bdf8] flex items-center justify-center border border-white/30">
+                <Bot className="w-5 h-5 text-white" />
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
                   <h3 className="font-extrabold text-sm text-white">Bin Misal AI Desk</h3>
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                  <span className="w-2 h-2 rounded-full bg-sky-300 animate-ping" />
                 </div>
-                <p className="text-[10px] text-emerald-200">Saudi Legal & Travel Specialist</p>
+                <p className="text-[10px] text-sky-200">Saudi Legal & Travel Specialist</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-1 text-emerald-300">
+            <div className="flex items-center gap-1 text-sky-200">
               <a
                 href="tel:+966501112233"
                 title="Call Branch Hotline"
-                className="p-1.5 hover:bg-[#0F6C44] rounded-lg transition-colors"
+                className="p-1.5 hover:bg-[#1e40af] rounded-lg transition-colors"
               >
-                <PhoneCall className="w-4 h-4 text-[#D4AF37]" />
+                <PhoneCall className="w-4 h-4 text-[#38bdf8]" />
               </a>
               <button
                 onClick={() =>
@@ -199,13 +199,13 @@ export default function AiChatWidget() {
                   ])
                 }
                 title="Reset Chat"
-                className="p-1.5 hover:bg-[#0F6C44] rounded-lg transition-colors"
+                className="p-1.5 hover:bg-[#1e40af] rounded-lg transition-colors cursor-pointer"
               >
                 <RotateCcw className="w-4 h-4" />
               </button>
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-1.5 hover:bg-[#0F6C44] rounded-lg transition-colors"
+                className="p-1.5 hover:bg-[#1e40af] rounded-lg transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -218,7 +218,7 @@ export default function AiChatWidget() {
               <button
                 key={idx}
                 onClick={() => handleSend(chip.prompt)}
-                className="shrink-0 px-3 py-1 rounded-full bg-white hover:bg-emerald-100 hover:text-[#064e3b] text-[11px] font-bold text-slate-700 border border-slate-200 shadow-2xs transition-colors whitespace-nowrap"
+                className="shrink-0 px-3.5 py-1 rounded-full bg-white hover:bg-blue-100 hover:text-[#2563eb] text-[11px] font-bold text-slate-700 border border-slate-200 shadow-2xs transition-colors whitespace-nowrap cursor-pointer"
               >
                 {chip.label}
               </button>
@@ -233,7 +233,7 @@ export default function AiChatWidget() {
                 className={`flex gap-2.5 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 {msg.sender === 'assistant' && (
-                  <div className="w-7 h-7 rounded-lg bg-[#064e3b] text-[#D4AF37] flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                  <div className="w-7 h-7 rounded-lg bg-[#2563eb] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
                     <Bot className="w-4 h-4" />
                   </div>
                 )}
@@ -242,7 +242,7 @@ export default function AiChatWidget() {
                   <div
                     className={`p-3.5 rounded-2xl text-xs leading-relaxed ${
                       msg.sender === 'user'
-                        ? 'bg-[#0F6C44] text-white rounded-tr-none shadow-md font-bold'
+                        ? 'bg-[#2563eb] text-white rounded-tr-none shadow-md font-bold'
                         : 'bg-white text-slate-800 rounded-tl-none border border-slate-200/80 shadow-sm whitespace-pre-line'
                     }`}
                   >
@@ -250,10 +250,10 @@ export default function AiChatWidget() {
 
                     {/* Auto-Created Lead Banner Card */}
                     {msg.leadCreated && (
-                      <div className="mt-3 p-3 rounded-2xl bg-gradient-to-br from-amber-50 to-emerald-50 border border-amber-300 text-slate-900 shadow-inner">
+                      <div className="mt-3 p-3 rounded-2xl bg-gradient-to-br from-blue-50 to-sky-50 border border-blue-300 text-slate-900 shadow-inner">
                         <div className="flex items-center justify-between mb-1">
-                          <span className="text-[10px] font-extrabold text-amber-900 uppercase tracking-wider flex items-center gap-1">
-                            <CheckCircle2 className="w-3.5 h-3.5 text-[#0F6C44]" />
+                          <span className="text-[10px] font-extrabold text-[#2563eb] uppercase tracking-wider flex items-center gap-1">
+                            <CheckCircle2 className="w-3.5 h-3.5 text-[#2563eb]" />
                             File Registered
                           </span>
                           <span className="text-[10px] text-slate-500 font-bold">
@@ -261,19 +261,19 @@ export default function AiChatWidget() {
                           </span>
                         </div>
 
-                        <div className="flex items-center justify-between bg-white px-3 py-1.5 rounded-xl border border-amber-200 mt-1">
-                          <span className="font-mono font-extrabold text-sm text-[#064e3b]">
+                        <div className="flex items-center justify-between bg-white px-3 py-1.5 rounded-xl border border-blue-200 mt-1">
+                          <span className="font-mono font-extrabold text-sm text-[#1e3a8a]">
                             #{msg.leadCreated.tracking_code}
                           </span>
                           <button
                             onClick={() => copyToClipboard(msg.leadCreated!.tracking_code)}
-                            className="text-[10px] text-amber-800 font-extrabold hover:underline flex items-center gap-1"
+                            className="text-[10px] text-[#2563eb] font-extrabold hover:underline flex items-center gap-1 cursor-pointer"
                           >
                             {copiedCode === msg.leadCreated.tracking_code ? (
-                              <span className="text-[#0F6C44] font-bold">Copied!</span>
+                              <span className="text-[#2563eb] font-bold">Copied!</span>
                             ) : (
                               <>
-                                <Copy className="w-3 h-3 text-[#D4AF37]" />
+                                <Copy className="w-3 h-3 text-[#2563eb]" />
                                 <span>Copy Code</span>
                               </>
                             )}
@@ -291,7 +291,7 @@ export default function AiChatWidget() {
 
                     <span
                       className={`block text-[9px] mt-1 text-right ${
-                        msg.sender === 'user' ? 'text-emerald-200' : 'text-slate-400'
+                        msg.sender === 'user' ? 'text-sky-200' : 'text-slate-400'
                       }`}
                     >
                       {msg.timestamp}
@@ -310,9 +310,9 @@ export default function AiChatWidget() {
             {isTyping && (
               <div className="flex items-center gap-2 text-slate-400 text-xs italic pl-9">
                 <div className="flex gap-1">
-                  <span className="w-1.5 h-1.5 bg-[#0F6C44] rounded-full animate-bounce" />
-                  <span className="w-1.5 h-1.5 bg-[#0F6C44] rounded-full animate-bounce [animation-delay:0.2s]" />
-                  <span className="w-1.5 h-1.5 bg-[#0F6C44] rounded-full animate-bounce [animation-delay:0.4s]" />
+                  <span className="w-1.5 h-1.5 bg-[#2563eb] rounded-full animate-bounce" />
+                  <span className="w-1.5 h-1.5 bg-[#2563eb] rounded-full animate-bounce [animation-delay:0.2s]" />
+                  <span className="w-1.5 h-1.5 bg-[#2563eb] rounded-full animate-bounce [animation-delay:0.4s]" />
                 </div>
                 <span>Searching vector store & routing query...</span>
               </div>
@@ -334,12 +334,12 @@ export default function AiChatWidget() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask anything in Bengali or English..."
-              className="flex-1 px-3 py-2 rounded-xl bg-slate-100 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#0F6C44] text-xs text-slate-900 font-semibold"
+              className="flex-1 px-3 py-2 rounded-xl bg-slate-100 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#2563eb] text-xs text-slate-900 font-semibold"
             />
             <button
               type="submit"
               disabled={!input.trim() || isTyping}
-              className="p-2.5 rounded-xl bg-[#0F6C44] hover:bg-[#0A4B2F] text-white transition-colors disabled:opacity-50"
+              className="p-2.5 rounded-xl bg-[#2563eb] hover:bg-[#1d4ed8] text-white transition-colors cursor-pointer disabled:opacity-50"
               aria-label="Send Message"
             >
               <Send className="w-4 h-4" />

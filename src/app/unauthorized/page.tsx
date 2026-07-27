@@ -17,13 +17,13 @@ export default function UnauthorizedPage() {
         <div className="pt-4 flex justify-center gap-3">
           <Link
             href="/login"
-            className="px-5 py-2.5 rounded-xl bg-emerald-800 hover:bg-emerald-700 text-white font-bold text-xs shadow-md"
+            className="px-6 py-3 rounded-full bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-extrabold text-xs shadow-md"
           >
             Login as Super Admin
           </Link>
           <Link
             href="/"
-            className="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs"
+            className="px-6 py-3 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs"
           >
             Go to Public Home
           </Link>

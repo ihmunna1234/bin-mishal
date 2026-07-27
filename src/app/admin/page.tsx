@@ -24,7 +24,7 @@ export default function AdminDashboardPage() {
       value: '1,248',
       change: '+14% this month',
       icon: KanbanSquare,
-      color: 'text-blue-400',
+      color: 'text-[#38bdf8]',
       bg: 'bg-blue-950/60 border-blue-800/60',
     },
     {
@@ -55,43 +55,43 @@ export default function AdminDashboardPage() {
 
   const recentInquiries = [
     {
-      code: '100001',
-      client: 'Mohammed Al-Otaibi',
-      phone: '+966 55 123 4567',
-      category: 'Umrah',
-      branch: 'Riyadh Batha Head Office',
+      code: 'BMT101',
+      client: 'Kabir Hossain',
+      phone: '+966 51 111 1111',
+      category: 'Passport Malumat',
+      branch: 'Riyadh Batha Main Branch',
       status: 'New',
       date: '10 mins ago',
     },
     {
-      code: '100002',
-      client: 'Tariq Rahman',
-      phone: '+966 56 987 6543',
-      category: 'MISA Investor License',
-      branch: 'Riyadh Batha Head Office',
+      code: 'BMT102',
+      client: 'Mohammed Ali',
+      phone: '+966 52 222 2222',
+      category: 'Umrah',
+      branch: 'Dammam City Branch',
       status: 'Processing',
       date: '1 hour ago',
     },
     {
-      code: '100003',
-      client: 'Faisal Khan',
-      phone: '+966 54 112 2334',
+      code: 'BMT103',
+      client: 'Sumon Ahmed',
+      phone: '+966 53 333 3333',
       category: 'Flight Ticketing',
-      branch: 'Dammam Regional Branch',
+      branch: 'Madinah Central Branch',
       status: 'Completed',
       date: '3 hours ago',
     },
     {
-      code: '100004',
-      client: 'Abdullah Al-Ghamdi',
-      phone: '+966 50 334 4556',
-      category: 'Ziyarah Visa',
-      branch: 'Madinah Central Branch',
+      code: 'BMT104',
+      client: 'Kamal Uddin',
+      phone: '+966 54 444 4444',
+      category: 'MISA Investor License',
+      branch: 'Riyadh Batha Main Branch',
       status: 'Action Required',
       date: 'Yesterday',
     },
     {
-      code: '100005',
+      code: 'BMT105',
       client: 'Shahid Islam',
       phone: '+966 55 667 7889',
       category: 'Qiwa/Amel Issues',
@@ -117,9 +117,9 @@ export default function AdminDashboardPage() {
         <div className="flex items-center gap-3">
           <Link
             href="/admin/inquiries"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shadow-md transition-transform hover:scale-105"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-bold text-xs shadow-md transition-all cursor-pointer"
           >
-            <KanbanSquare className="w-4 h-4" />
+            <KanbanSquare className="w-4 h-4 text-white" />
             <span>Open Inquiries Board</span>
           </Link>
         </div>
@@ -137,7 +137,7 @@ export default function AdminDashboardPage() {
               <div>
                 <p className="text-xs font-medium text-slate-400">{stat.label}</p>
                 <p className="text-3xl font-extrabold text-white mt-1">{stat.value}</p>
-                <span className="text-[11px] font-semibold text-emerald-400 block mt-1">
+                <span className="text-[11px] font-semibold text-[#38bdf8] block mt-1">
                   {stat.change}
                 </span>
               </div>
@@ -155,20 +155,20 @@ export default function AdminDashboardPage() {
         <div className="lg:col-span-2 rounded-2xl bg-slate-950 border border-slate-800 p-6 shadow-xl space-y-4">
           <div className="flex justify-between items-center">
             <h3 className="text-sm font-bold text-white flex items-center gap-2">
-              <Building2 className="w-4 h-4 text-amber-400" />
+              <Building2 className="w-4 h-4 text-[#38bdf8]" />
               Branch Inquiry Distribution
             </h3>
-            <Link href="/admin/branches" className="text-xs text-amber-400 hover:underline">
+            <Link href="/admin/branches" className="text-xs text-[#38bdf8] hover:underline">
               Manage Branches
             </Link>
           </div>
 
           <div className="space-y-3 pt-2">
             {[
-              { name: 'Riyadh Batha Head Office', count: 540, pct: 45, color: 'bg-emerald-500' },
-              { name: 'Dammam Regional Branch', count: 320, pct: 26, color: 'bg-blue-500' },
-              { name: 'Madinah Central Branch', count: 240, pct: 19, color: 'bg-amber-500' },
-              { name: 'Jeddah Al-Balad Branch', count: 148, pct: 10, color: 'bg-purple-500' },
+              { name: 'Riyadh Batha Main Branch', count: 540, pct: 45, color: 'bg-[#2563eb]' },
+              { name: 'Dammam City Branch', count: 320, pct: 26, color: 'bg-[#38bdf8]' },
+              { name: 'Madinah Central Branch', count: 240, pct: 19, color: 'bg-indigo-500' },
+              { name: 'Jeddah Al-Balad Branch', count: 148, pct: 10, color: 'bg-sky-600' },
             ].map((b, i) => (
               <div key={i} className="space-y-1">
                 <div className="flex justify-between text-xs font-semibold">
@@ -186,7 +186,7 @@ export default function AdminDashboardPage() {
         {/* Top Services Breakdown */}
         <div className="rounded-2xl bg-slate-950 border border-slate-800 p-6 shadow-xl space-y-4">
           <h3 className="text-sm font-bold text-white flex items-center gap-2">
-            <TrendingUp className="w-4 h-4 text-emerald-400" />
+            <TrendingUp className="w-4 h-4 text-[#38bdf8]" />
             Category Volume
           </h3>
 
@@ -204,7 +204,7 @@ export default function AdminDashboardPage() {
               >
                 <span className="font-semibold text-slate-200">{s.label}</span>
                 <div className="flex items-center gap-2">
-                  <span className="font-bold text-amber-400">{s.count}</span>
+                  <span className="font-bold text-[#38bdf8]">{s.count}</span>
                   <span className="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded">
                     {s.badge}
                   </span>
@@ -220,7 +220,7 @@ export default function AdminDashboardPage() {
         <div className="flex justify-between items-center">
           <div>
             <h3 className="text-sm font-bold text-white flex items-center gap-2">
-              <KanbanSquare className="w-4 h-4 text-amber-400" />
+              <KanbanSquare className="w-4 h-4 text-[#38bdf8]" />
               Latest Inquiries Logged
             </h3>
             <p className="text-[11px] text-slate-400">Showing last 5 inquiries across all Saudi branches</p>
@@ -228,7 +228,7 @@ export default function AdminDashboardPage() {
 
           <Link
             href="/admin/inquiries"
-            className="text-xs text-amber-400 hover:text-amber-300 flex items-center gap-1 font-semibold"
+            className="text-xs text-[#38bdf8] hover:text-white flex items-center gap-1 font-semibold"
           >
             <span>View Full Board</span>
             <ChevronRight className="w-4 h-4" />
@@ -251,7 +251,7 @@ export default function AdminDashboardPage() {
             <tbody className="divide-y divide-slate-800/80">
               {recentInquiries.map((inquiry) => (
                 <tr key={inquiry.code} className="hover:bg-slate-900/60 transition-colors">
-                  <td className="py-3 px-4 font-mono font-bold text-amber-400">#{inquiry.code}</td>
+                  <td className="py-3 px-4 font-mono font-bold text-[#38bdf8]">#{inquiry.code}</td>
                   <td className="py-3 px-4 font-semibold text-white">
                     <div>{inquiry.client}</div>
                     <div className="text-[10px] text-slate-400 font-normal">{inquiry.phone}</div>
@@ -264,7 +264,7 @@ export default function AdminDashboardPage() {
                         inquiry.status === 'Completed'
                           ? 'bg-emerald-950 text-emerald-300 border border-emerald-800'
                           : inquiry.status === 'Processing'
-                          ? 'bg-amber-950 text-amber-300 border border-amber-800'
+                          ? 'bg-blue-950 text-sky-300 border border-blue-800'
                           : inquiry.status === 'Action Required'
                           ? 'bg-red-950 text-red-300 border border-red-800'
                           : 'bg-blue-950 text-blue-300 border border-blue-800'
@@ -281,9 +281,9 @@ export default function AdminDashboardPage() {
                       )},%20regarding%20your%20inquiry%20%23${inquiry.code}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-900/80 hover:bg-emerald-800 text-white font-semibold text-[11px] border border-emerald-700 transition-colors"
+                      className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-bold text-[11px] shadow-sm transition-colors"
                     >
-                      <MessageSquare className="w-3 h-3 text-amber-300" />
+                      <MessageSquare className="w-3 h-3 text-white" />
                       <span>WhatsApp</span>
                     </a>
                   </td>

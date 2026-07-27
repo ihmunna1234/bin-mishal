@@ -26,7 +26,7 @@ interface BranchInfo {
 const branchesData: BranchInfo[] = [
   {
     id: 'riyadh',
-    name: 'Riyadh Batha Head Office',
+    name: 'Riyadh Batha Main Branch',
     city: 'Riyadh',
     address: 'Batha Commercial Center, Opposite Al-Rajhi Tower, Riyadh 12633',
     addressBn: 'বাতহা বাণিজ্যিক সেন্টার, আল-রাজহি টাওয়ারের বিপরীতে, রিয়াদ',
@@ -38,7 +38,7 @@ const branchesData: BranchInfo[] = [
   },
   {
     id: 'dammam',
-    name: 'Dammam Regional Branch',
+    name: 'Dammam City Branch',
     city: 'Dammam',
     address: 'King Fahd Road, Central Commercial Area, Dammam 32241',
     addressBn: 'কিং ফাহাদ রোড, কেন্দ্রীয় বাণিজ্যিক এলাকা, দাম্মাম',
@@ -87,14 +87,14 @@ export default function BranchFinder() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3 mb-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#0A4B2F]/90 text-[#E5C158] text-xs font-bold border border-emerald-700">
-            <Building2 className="w-4 h-4 text-[#D4AF37]" />
-            <span>Kingdom Wide Presence</span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1e40af] text-sky-200 text-xs font-bold border border-blue-600">
+            <Building2 className="w-4 h-4 text-[#38bdf8]" />
+            <span>Kingdom Wide Network</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
             Our Saudi Arabia Branch Locations
           </h2>
-          <p className="text-sm text-slate-300">
+          <p className="text-sm text-slate-300 font-medium">
             রিয়াদ, দাম্মাম, মদিনা ও জেদ্দায় আমাদের নিজস্ব ব্রাঞ্চ থেকে সরাসরি সেবা নিন।
           </p>
         </div>
@@ -105,9 +105,9 @@ export default function BranchFinder() {
             <button
               key={city}
               onClick={() => setSelectedCity(city)}
-              className={`px-5 py-2.5 rounded-2xl text-xs font-extrabold transition-all ${
+              className={`px-6 py-2.5 rounded-full text-xs font-extrabold transition-all cursor-pointer ${
                 selectedCity === city
-                  ? 'gold-gradient-bg text-slate-950 shadow-lg shadow-amber-500/20'
+                  ? 'bg-[#2563eb] text-white shadow-lg shadow-blue-500/30'
                   : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700'
               }`}
             >
@@ -121,22 +121,22 @@ export default function BranchFinder() {
           {filteredBranches.map((branch) => (
             <div
               key={branch.id}
-              className="rounded-3xl bg-slate-800/90 border border-slate-700/80 p-7 hover:border-[#0F6C44] transition-all duration-300 flex flex-col justify-between shadow-xl"
+              className="rounded-3xl bg-slate-800/90 border border-slate-700/80 p-7 hover:border-[#2563eb] transition-all duration-300 flex flex-col justify-between shadow-xl"
             >
               <div>
                 {/* Branch Header */}
                 <div className="flex items-start justify-between gap-4 mb-4 pb-4 border-b border-slate-700">
                   <div>
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                      <span className="text-[11px] font-extrabold uppercase text-[#E5C158] tracking-wider">
+                      <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
+                      <span className="text-[11px] font-extrabold uppercase text-[#38bdf8] tracking-wider">
                         {branch.city} Region
                       </span>
                     </div>
                     <h3 className="text-xl font-extrabold text-white">{branch.name}</h3>
                   </div>
 
-                  <span className="px-2.5 py-1 rounded-md bg-[#064e3b] text-emerald-300 text-[11px] font-bold border border-emerald-800 shrink-0">
+                  <span className="px-3 py-1 rounded-full bg-blue-950 text-sky-300 text-[11px] font-bold border border-blue-800 shrink-0">
                     Active Branch
                   </span>
                 </div>
@@ -144,7 +144,7 @@ export default function BranchFinder() {
                 {/* Branch Details */}
                 <div className="space-y-3.5 text-xs text-slate-300 mb-6">
                   <div className="flex items-start gap-3">
-                    <MapPin className="w-4.5 h-4.5 text-[#D4AF37] shrink-0 mt-0.5" />
+                    <MapPin className="w-4.5 h-4.5 text-[#38bdf8] shrink-0 mt-0.5" />
                     <div>
                       <p className="font-bold text-slate-100">{branch.address}</p>
                       <p className="text-[11px] text-slate-400 mt-0.5 font-medium">{branch.addressBn}</p>
@@ -152,7 +152,7 @@ export default function BranchFinder() {
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <Clock className="w-4.5 h-4.5 text-emerald-400 shrink-0" />
+                    <Clock className="w-4.5 h-4.5 text-sky-400 shrink-0" />
                     <span className="font-semibold">{branch.hours}</span>
                   </div>
 
@@ -171,9 +171,9 @@ export default function BranchFinder() {
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-2xl bg-[#0F6C44] hover:bg-[#0A4B2F] text-white font-extrabold text-xs shadow-md transition-colors"
+                  className="flex items-center justify-center gap-2 py-3 px-4 rounded-full bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-extrabold text-xs shadow-md shadow-blue-500/20 transition-colors"
                 >
-                  <MessageSquare className="w-4 h-4 text-[#D4AF37]" />
+                  <MessageSquare className="w-4 h-4 text-white" />
                   <span>WhatsApp Chat</span>
                 </a>
 
@@ -181,9 +181,9 @@ export default function BranchFinder() {
                   href={branch.googleMapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-2xl bg-slate-700 hover:bg-slate-600 text-slate-100 font-bold text-xs border border-slate-600 transition-colors"
+                  className="flex items-center justify-center gap-2 py-3 px-4 rounded-full bg-slate-700 hover:bg-slate-600 text-slate-100 font-bold text-xs border border-slate-600 transition-colors"
                 >
-                  <Navigation className="w-4 h-4 text-[#D4AF37]" />
+                  <Navigation className="w-4 h-4 text-[#38bdf8]" />
                   <span>Google Maps</span>
                 </a>
               </div>

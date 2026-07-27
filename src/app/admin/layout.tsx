@@ -10,7 +10,7 @@ import {
   Users,
   BookOpen,
   LogOut,
-  Compass,
+  Plane,
   Menu,
   X,
   Bell,
@@ -49,14 +49,14 @@ export default function AdminLayout({
       <aside className="hidden lg:flex flex-col w-64 bg-slate-950 border-r border-slate-800 shrink-0">
         {/* Brand Header */}
         <div className="p-5 border-b border-slate-800 flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#0F6C44] to-[#064e3b] flex items-center justify-center text-[#D4AF37] border border-emerald-600 shadow-md">
-            <Compass className="w-5 h-5 stroke-[2.2]" />
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#2563eb] to-[#1e40af] flex items-center justify-center text-white border border-blue-500/40 shadow-md">
+            <Plane className="w-5 h-5 stroke-[2.2]" />
           </div>
           <div>
             <h1 className="font-extrabold text-base tracking-tight text-white">
-              Bin Misal <span className="text-[#D4AF37]">ERP</span>
+              Bin Misal <span className="text-[#38bdf8]">ERP</span>
             </h1>
-            <p className="text-[10px] text-emerald-400 font-medium tracking-wider uppercase">
+            <p className="text-[10px] text-sky-400 font-medium tracking-wider uppercase">
               Saudi Enterprise Portal
             </p>
           </div>
@@ -65,7 +65,7 @@ export default function AdminLayout({
         {/* User Profile Pill */}
         <div className="p-4 border-b border-slate-800/80 bg-slate-900/60">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-[#064e3b] text-[#D4AF37] flex items-center justify-center font-extrabold text-xs border border-emerald-700">
+            <div className="w-9 h-9 rounded-full bg-[#1e40af] text-white flex items-center justify-center font-extrabold text-xs border border-blue-600">
               BM
             </div>
             <div className="flex-1 min-w-0">
@@ -74,11 +74,11 @@ export default function AdminLayout({
             </div>
           </div>
           <div className="mt-2.5 flex items-center justify-between">
-            <span className="px-2 py-0.5 rounded text-[10px] font-extrabold bg-[#064e3b] text-[#E5C158] border border-emerald-800">
+            <span className="px-2 py-0.5 rounded text-[10px] font-extrabold bg-[#1e3a8a] text-sky-200 border border-blue-800">
               ROLE: AUTHENTICATED
             </span>
-            <span className="text-[10px] text-emerald-400 flex items-center gap-1 font-semibold">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="text-[10px] text-sky-400 flex items-center gap-1 font-semibold">
+              <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
               KSA Active
             </span>
           </div>
@@ -95,11 +95,11 @@ export default function AdminLayout({
                 href={item.href}
                 className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all ${
                   isActive
-                    ? 'bg-[#0F6C44] text-[#E5C158] shadow-md border border-emerald-600'
+                    ? 'bg-[#2563eb] text-white shadow-md border border-blue-500'
                     : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900'
                 }`}
               >
-                <Icon className={`w-4.5 h-4.5 ${isActive ? 'text-[#D4AF37]' : 'text-slate-400'}`} />
+                <Icon className={`w-4.5 h-4.5 ${isActive ? 'text-white' : 'text-slate-400'}`} />
                 <span>{item.label}</span>
               </Link>
             );
@@ -113,13 +113,13 @@ export default function AdminLayout({
             target="_blank"
             className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-xs font-semibold text-slate-300 hover:text-white transition-colors border border-slate-800"
           >
-            <ExternalLink className="w-4 h-4 text-emerald-400" />
+            <ExternalLink className="w-4 h-4 text-[#38bdf8]" />
             <span>Public Website</span>
           </Link>
 
           <button
             onClick={handleSignOut}
-            className="w-full flex items-center gap-2 px-3 py-2 rounded-xl bg-red-950/40 hover:bg-red-900/60 text-xs font-bold text-red-300 transition-colors border border-red-900/50"
+            className="w-full flex items-center gap-2 px-3 py-2 rounded-xl bg-red-950/40 hover:bg-red-900/60 text-xs font-bold text-red-300 transition-colors border border-red-900/50 cursor-pointer"
           >
             <LogOut className="w-4 h-4 text-red-400" />
             <span>Sign Out</span>
@@ -134,7 +134,7 @@ export default function AdminLayout({
           <div className="flex items-center gap-3">
             <button
               onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
-              className="lg:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800"
+              className="lg:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer"
             >
               {mobileSidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -151,9 +151,9 @@ export default function AdminLayout({
           </div>
 
           <div className="flex items-center gap-4">
-            <button className="p-2 rounded-xl bg-slate-900 text-slate-400 hover:text-white border border-slate-800 relative">
+            <button className="p-2 rounded-xl bg-slate-900 text-slate-400 hover:text-white border border-slate-800 relative cursor-pointer">
               <Bell className="w-4 h-4" />
-              <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse" />
+              <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-[#38bdf8] animate-pulse" />
             </button>
           </div>
         </header>
@@ -169,7 +169,7 @@ export default function AdminLayout({
             <span className="font-bold text-white text-sm">Navigation Menu</span>
             <button
               onClick={() => setMobileSidebarOpen(false)}
-              className="p-2 text-slate-400 hover:text-white"
+              className="p-2 text-slate-400 hover:text-white cursor-pointer"
             >
               <X className="w-6 h-6" />
             </button>
@@ -182,9 +182,9 @@ export default function AdminLayout({
                   key={item.href}
                   href={item.href}
                   onClick={() => setMobileSidebarOpen(false)}
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-300 hover:bg-[#064e3b] hover:text-[#E5C158]"
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-300 hover:bg-[#1e3a8a] hover:text-[#38bdf8]"
                 >
-                  <Icon className="w-5 h-5 text-[#D4AF37]" />
+                  <Icon className="w-5 h-5 text-[#38bdf8]" />
                   <span>{item.label}</span>
                 </Link>
               );

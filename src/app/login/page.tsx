@@ -3,7 +3,7 @@
 import React, { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { Compass, Mail, ArrowRight, KeyRound, AlertCircle, Loader2 } from 'lucide-react';
+import { Plane, Mail, ArrowRight, KeyRound, AlertCircle, Loader2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 
 function LoginForm() {
@@ -94,7 +94,7 @@ function LoginForm() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="e.g. admin@binmisal.com"
               required
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:ring-2 focus:ring-[#0F6C44] font-semibold text-xs placeholder:text-slate-500"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:ring-2 focus:ring-[#2563eb] font-semibold text-xs placeholder:text-slate-500"
             />
           </div>
         </div>
@@ -109,7 +109,7 @@ function LoginForm() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••••••"
               required
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:ring-2 focus:ring-[#0F6C44] font-semibold text-xs placeholder:text-slate-500"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:ring-2 focus:ring-[#2563eb] font-semibold text-xs placeholder:text-slate-500"
             />
           </div>
         </div>
@@ -117,17 +117,17 @@ function LoginForm() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3 rounded-xl bg-[#0F6C44] hover:bg-[#0A4B2F] text-white font-extrabold text-xs shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-60"
+          className="w-full py-3.5 rounded-full bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-extrabold text-xs shadow-lg shadow-blue-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
         >
           {loading ? (
             <>
-              <Loader2 className="w-4 h-4 animate-spin text-[#D4AF37]" />
+              <Loader2 className="w-4 h-4 animate-spin text-white" />
               <span>Authenticating...</span>
             </>
           ) : (
             <>
               <span>Sign In to ERP Portal</span>
-              <ArrowRight className="w-4 h-4 text-[#D4AF37]" />
+              <ArrowRight className="w-4 h-4 text-white" />
             </>
           )}
         </button>
@@ -140,19 +140,19 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-slate-950 text-white flex flex-col justify-center items-center p-4 relative overflow-hidden">
       {/* Background Decorative Glow */}
-      <div className="absolute top-1/4 left-1/3 w-96 h-96 bg-[#0F6C44]/20 rounded-full filter blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/3 w-96 h-96 bg-[#D4AF37]/15 rounded-full filter blur-3xl pointer-events-none" />
+      <div className="absolute top-1/4 left-1/3 w-96 h-96 bg-[#2563eb]/20 rounded-full filter blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/3 w-96 h-96 bg-sky-400/15 rounded-full filter blur-3xl pointer-events-none" />
 
       <div className="w-full max-w-md space-y-6 relative z-10">
         {/* Brand Header */}
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-[#0F6C44] to-[#064e3b] text-[#D4AF37] border border-emerald-600 shadow-xl mb-2">
-            <Compass className="w-8 h-8 stroke-[2.2]" />
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-[#2563eb] to-[#1e40af] text-white border border-blue-500/40 shadow-xl mb-2">
+            <Plane className="w-7 h-7 stroke-[2.2]" />
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
-            Bin Misal <span className="text-[#D4AF37]">ERP Portal</span>
+            Bin Misal <span className="text-[#38bdf8]">ERP Portal</span>
           </h1>
-          <p className="text-xs text-emerald-300 font-semibold">
+          <p className="text-xs text-sky-300 font-semibold">
             Production Staff Sign-In • Saudi Arabia Operations
           </p>
         </div>

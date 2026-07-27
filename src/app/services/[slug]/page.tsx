@@ -44,7 +44,7 @@ const servicesData: Record<string, ServiceDetail> = {
     titleBn: '২০২৬ উমরাহ প্যাকেজ, হোটেল বুকিং ও নুশুক পারমিট',
     category: 'Umrah & Tourism',
     icon: Moon,
-    heroBg: 'from-emerald-950 via-emerald-900 to-slate-950',
+    heroBg: 'from-[#1e3a8a] via-[#1d4ed8] to-[#2563eb]',
     description:
       'Complete end-to-end Umrah visa issuance, Nusuk Rawdah Al-Sharifa permits, 5-star & 3-star hotel reservations in Makkah & Madinah, and luxury private GMC / VIP bus transport for Saudi expatriates and international pilgrims.',
     descriptionBn:
@@ -83,7 +83,7 @@ const servicesData: Record<string, ServiceDetail> = {
     titleBn: 'পাসপোর্ট তথ্য (মালুমাত) ও আবশের আপডেট সার্ভিস',
     category: 'Passport Services',
     icon: FileCheck,
-    heroBg: 'from-slate-950 via-emerald-950 to-slate-900',
+    heroBg: 'from-slate-950 via-[#1e3a8a] to-slate-900',
     description:
       'Express passport information update (Malumat) on Jawazat and Absher systems following passport renewal, lost passport reissuance, or data correction in Saudi Arabia.',
     descriptionBn:
@@ -116,7 +116,7 @@ const servicesData: Record<string, ServiceDetail> = {
     titleBn: 'এমআইএসএ (MISA) ইনভেস্টর লাইসেন্স ও সিআর রেজিস্ট্রেশন',
     category: 'Business & Investment',
     icon: Building2,
-    heroBg: 'from-amber-950 via-slate-950 to-emerald-950',
+    heroBg: 'from-[#1e3a8a] via-slate-950 to-[#2563eb]',
     description:
       'Comprehensive setup for foreign entrepreneurs establishing 100% foreign-owned business entities in Saudi Arabia under Ministry of Investment (MISA) regulations, Commercial Registration (CR), and corporate bank accounts.',
     descriptionBn:
@@ -146,7 +146,7 @@ const servicesData: Record<string, ServiceDetail> = {
     titleBn: 'কিওয়া (Qiwa) কফিল পরিবর্তন ও স্পন্সরশিপ ট্রান্সফার',
     category: 'Labor & Visas',
     icon: Briefcase,
-    heroBg: 'from-slate-950 via-emerald-900 to-slate-950',
+    heroBg: 'from-slate-950 via-[#1e3a8a] to-slate-950',
     description:
       'Expat labor transfer resolution, Qiwa contract offer verification, Nitaqat compliance check, and Absher Kafeel transfer troubleshooting under Ministry of Human Resources & Social Development (HRSD).',
     descriptionBn:
@@ -176,7 +176,6 @@ export default function ServiceDetailPage({ params }: { params: { slug: string }
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
   if (!service) {
-    // Default fallback service detail to prevent 404
     const fallbackService = servicesData['umrah-tourism'];
     return renderServiceDetail(fallbackService, openFaqIndex, setOpenFaqIndex);
   }
@@ -198,15 +197,15 @@ function renderServiceDetail(
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <Link
             href="/#services"
-            className="inline-flex items-center gap-2 text-xs font-bold text-amber-400 hover:text-amber-300 transition-colors mb-6"
+            className="inline-flex items-center gap-2 text-xs font-bold text-sky-300 hover:text-white transition-colors mb-6"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to All Services</span>
           </Link>
 
           <div className="max-w-3xl space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-900/80 border border-emerald-700 text-emerald-300 text-xs font-bold">
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-900/80 border border-blue-600 text-sky-200 text-xs font-bold">
+              <Sparkles className="w-3.5 h-3.5 text-sky-300" />
               <span>{service.category}</span>
             </div>
 
@@ -214,9 +213,9 @@ function renderServiceDetail(
               {service.title}
             </h1>
 
-            <p className="text-sm sm:text-base text-amber-400 font-bold">{service.titleBn}</p>
+            <p className="text-sm sm:text-base text-sky-200 font-bold">{service.titleBn}</p>
 
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed pt-2">
+            <p className="text-xs sm:text-sm text-blue-100 leading-relaxed pt-2">
               {service.description}
             </p>
 
@@ -227,17 +226,17 @@ function renderServiceDetail(
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg transition-transform hover:scale-105"
+                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-extrabold text-xs shadow-lg transition-transform hover:scale-105"
               >
-                <MessageSquare className="w-4 h-4 text-amber-300" />
+                <MessageSquare className="w-4 h-4 text-white" />
                 <span>Inquire on WhatsApp</span>
               </a>
 
               <a
                 href="tel:+966501112233"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-100 font-semibold text-xs border border-slate-700"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-semibold text-xs border border-white/20 backdrop-blur-sm"
               >
-                <PhoneCall className="w-4 h-4 text-amber-400" />
+                <PhoneCall className="w-4 h-4 text-sky-300" />
                 <span>Call +966 50 111 2233</span>
               </a>
             </div>
@@ -250,19 +249,19 @@ function renderServiceDetail(
         {/* Requirements & Document Checklist */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           <div className="lg:col-span-7 space-y-6">
-            <div className="border-l-4 border-emerald-600 pl-4">
+            <div className="border-l-4 border-[#2563eb] pl-4">
               <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
                 Required Documents & Guidelines
               </h2>
-              <p className="text-xs text-slate-500 mt-0.5">
+              <p className="text-xs text-slate-500 mt-0.5 font-medium">
                 Ensure all documents are ready for submission at Riyadh, Dammam, or Madinah branches.
               </p>
             </div>
 
-            <div className="space-y-3 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            <div className="space-y-3 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
               {service.requirements.map((req, idx) => (
                 <div key={idx} className="flex items-start gap-3 text-xs text-slate-700">
-                  <CheckCircle2 className="w-4.5 h-4.5 text-emerald-600 shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4.5 h-4.5 text-[#2563eb] shrink-0 mt-0.5" />
                   <span className="font-medium leading-relaxed">{req}</span>
                 </div>
               ))}
@@ -270,16 +269,16 @@ function renderServiceDetail(
           </div>
 
           {/* Process Timeline Card */}
-          <div className="lg:col-span-5 bg-slate-900 text-white p-7 rounded-2xl shadow-xl border border-slate-800 space-y-5">
+          <div className="lg:col-span-5 bg-slate-900 text-white p-8 rounded-3xl shadow-xl border border-slate-800 space-y-5">
             <h3 className="text-lg font-bold text-white flex items-center gap-2 border-b border-slate-800 pb-3">
-              <Clock className="w-5 h-5 text-amber-400" />
+              <Clock className="w-5 h-5 text-[#38bdf8]" />
               Step-by-Step Application Flow
             </h3>
 
             <div className="space-y-4 text-xs">
               {service.processSteps.map((s, i) => (
                 <div key={i} className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-emerald-800 text-amber-400 font-extrabold flex items-center justify-center shrink-0 text-xs">
+                  <div className="w-6 h-6 rounded-full bg-[#2563eb] text-white font-extrabold flex items-center justify-center shrink-0 text-xs">
                     {s.step}
                   </div>
                   <div>
@@ -296,7 +295,7 @@ function renderServiceDetail(
         <div className="space-y-6 max-w-4xl mx-auto">
           <div className="text-center space-y-2">
             <h2 className="text-2xl font-extrabold text-slate-900">Frequently Asked Questions</h2>
-            <p className="text-xs text-slate-600">Common queries regarding {service.title}</p>
+            <p className="text-xs text-slate-600 font-medium">Common queries regarding {service.title}</p>
           </div>
 
           <div className="space-y-3">
@@ -309,18 +308,18 @@ function renderServiceDetail(
                 >
                   <button
                     onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
-                    className="w-full p-5 text-left font-bold text-sm text-slate-900 flex justify-between items-center hover:bg-slate-50 transition-colors"
+                    className="w-full p-5 text-left font-bold text-sm text-slate-900 flex justify-between items-center hover:bg-slate-50 transition-colors cursor-pointer"
                   >
                     <span>{faq.q}</span>
                     {isOpen ? (
-                      <ChevronUp className="w-5 h-5 text-emerald-600 shrink-0" />
+                      <ChevronUp className="w-5 h-5 text-[#2563eb] shrink-0" />
                     ) : (
                       <ChevronDown className="w-5 h-5 text-slate-400 shrink-0" />
                     )}
                   </button>
 
                   {isOpen && (
-                    <div className="px-5 pb-5 text-xs text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
+                    <div className="px-5 pb-5 text-xs text-slate-600 leading-relaxed border-t border-slate-100 pt-3 font-medium">
                       {faq.a}
                     </div>
                   )}
