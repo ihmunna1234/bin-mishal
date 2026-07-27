@@ -5,27 +5,27 @@ import { ServiceCategory } from '@prisma/client';
 function mapToServiceCategoryEnum(catString: string): ServiceCategory {
   const normalized = (catString || '').toLowerCase();
   if (normalized.includes('umrah') || normalized.includes('tourism')) {
-    return ServiceCategory.Umrah;
+    return 'Umrah' as ServiceCategory;
   }
   if (normalized.includes('flight') || normalized.includes('ticket')) {
-    return ServiceCategory.Flight_Ticketing;
+    return 'Flight_Ticketing' as ServiceCategory;
   }
   if (normalized.includes('malumat') || normalized.includes('passport')) {
-    return ServiceCategory.Passport_Malumat;
+    return 'Passport_Malumat' as ServiceCategory;
   }
   if (normalized.includes('ziyarah') || normalized.includes('visa')) {
-    return ServiceCategory.Ziyarah_Visa;
+    return 'Ziyarah_Visa' as ServiceCategory;
   }
   if (normalized.includes('misa') || normalized.includes('investor')) {
-    return ServiceCategory.MISA_Investor_License;
+    return 'MISA_Investor_License' as ServiceCategory;
   }
   if (normalized.includes('qiwa') || normalized.includes('amel') || normalized.includes('labor')) {
-    return ServiceCategory.Qiwa_Amel_Issues;
+    return 'Qiwa_Amel_Issues' as ServiceCategory;
   }
   if (normalized.includes('cargo')) {
-    return ServiceCategory.Cargo;
+    return 'Cargo' as ServiceCategory;
   }
-  return ServiceCategory.Umrah;
+  return 'Umrah' as ServiceCategory;
 }
 
 function generateTrackingCode(): string {
