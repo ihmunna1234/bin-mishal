@@ -1,0 +1,123 @@
+// ==============================================================================
+// BIN MISAL TRAVELS - PRISMA SCHEMA DEFINITION
+// Matches Supabase / PostgreSQL Core DDL Schema
+// ==============================================================================
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  directUrl  = env("DIRECT_URL")
+  extensions = [pgcrypto, uuidOssp(map: "uuid-ossp"), vector]
+}
+
+enum AppRole {
+  super_admin
+  branch_manager
+  agent
+
+  @@map("app_role")
+}
+
+enum ServiceCategory {
+  Umrah
+  Flight_Ticketing      @map("Flight Ticketing")
+  Passport_Malumat      @map("Passport Malumat")
+  Ziyarah_Visa          @map("Ziyarah Visa")
+  MISA_Investor_License @map("MISA Investor License")
+  Qiwa_Amel_Issues      @map("Qiwa/Amel Issues")
+  Cargo
+
+  @@map("service_category")
+}
+
+enum InquiryStatus {
+  New
+  Processing
+  Action_Required @map("Action Required")
+  Completed
+  Cancelled
+
+  @@map("inquiry_status")
+}
+
+model Branch {
+  id             String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name           String    @db.VarChar(255)
+  city           String    @db.VarChar(100)
+  phone          String?   @db.VarChar(50)
+  whatsappNumber String?   @map("whatsapp_number") @db.VarChar(50)
+  googleMapsUrl  String?   @map("google_maps_url")
+  status         String    @default("active") @db.VarChar(20)
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  users     User[]
+  inquiries Inquiry[]
+
+  @@map("branches")
+}
+
+model User {
+  id           String   @id @db.Uuid
+  fullName     String   @map("full_name") @db.VarChar(255)
+  email        String   @unique @db.VarChar(255)
+  phone        String?  @db.VarChar(50)
+  role         AppRole  @default(agent)
+  branchId     String?  @map("branch_id") @db.Uuid
+  avatarUrl    String?  @map("avatar_url")
+  activeStatus Boolean  @default(true) @map("active_status")
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt    DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  branch            Branch?   @relation(fields: [branchId], references: [id], onDelete: SetNull)
+  assignedInquiries Inquiry[] @relation("AssignedAgent")
+
+  @@index([branchId])
+  @@index([role])
+  @@map("users")
+}
+
+model Inquiry {
+  id                String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  trackingCode      String          @unique @map("tracking_code") @db.VarChar(6)
+  clientName        String          @map("client_name") @db.VarChar(255)
+  clientPhone       String          @map("client_phone") @db.VarChar(50)
+  serviceCategory   ServiceCategory @map("service_category")
+  status            InquiryStatus   @default(New)
+  preferredBranchId String?         @map("preferred_branch_id") @db.Uuid
+  assignedAgentId   String?         @map("assigned_agent_id") @db.Uuid
+  notes             String?
+  createdAt         DateTime        @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt         DateTime        @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  preferredBranch Branch? @relation(fields: [preferredBranchId], references: [id], onDelete: SetNull)
+  assignedAgent   User?   @relation("AssignedAgent", fields: [assignedAgentId], references: [id], onDelete: SetNull)
+
+  @@index([trackingCode])
+  @@index([preferredBranchId])
+  @@index([assignedAgentId])
+  @@index([status])
+  @@index([serviceCategory])
+  @@map("inquiries")
+}
+
+model KnowledgeBase {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  category  String   @db.VarChar(100)
+  title     String   @db.VarChar(255)
+  content   String
+  tags      String[] @default([])
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  // Embedding column is managed natively in PostgreSQL via pgvector
+  // embedding Unsupported("vector(1536)")?
+
+  @@index([category])
+  @@map("knowledge_base")
+}

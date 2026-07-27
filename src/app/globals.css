@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-emerald-primary: #0F6C44;
+    --color-emerald-deep: #064e3b;
+    --color-emerald-dark: #0A4B2F;
+    --color-gold-accent: #D4AF37;
+    --color-gold-bright: #E5C158;
+    --color-slate-dark: #0f172a;
+    --color-off-white: #F8FAFC;
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-900 antialiased font-sans selection:bg-[#0F6C44] selection:text-white;
+  }
+}
+
+/* Custom Glassmorphism & Color Theme Utilities */
+.bg-saudi-emerald {
+  background-color: #0F6C44;
+}
+
+.bg-saudi-emerald-deep {
+  background-color: #064e3b;
+}
+
+.text-saudi-gold {
+  color: #D4AF37;
+}
+
+.bg-saudi-gold {
+  background-color: #D4AF37;
+}
+
+.border-saudi-emerald {
+  border-color: #0F6C44;
+}
+
+.border-saudi-gold {
+  border-color: #D4AF37;
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.glass-panel-dark {
+  background: rgba(6, 78, 59, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+}
+
+.emerald-gradient {
+  background: linear-gradient(135deg, #064e3b 0%, #0F6C44 50%, #0A4B2F 100%);
+}
+
+.gold-gradient-text {
+  background: linear-gradient(135deg, #E5C158 0%, #D4AF37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-gradient-bg {
+  background: linear-gradient(135deg, #E5C158 0%, #D4AF37 100%);
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #0F6C44;
+}
+
+/* Utility classes */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
