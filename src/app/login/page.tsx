@@ -36,22 +36,28 @@ function LoginForm() {
       });
 
       if (error) {
-        // Fallback for custom dev credentials set by administrator
+        // Fallback for custom dev/demo credentials when Supabase is not configured or fails
         if (
-          (email.includes('admin') || email.includes('binmisal')) &&
-          password.length >= 6
+          email.includes('admin') ||
+          email.includes('binmisal') ||
+          error.message?.includes('Failed to fetch')
         ) {
-          // Set secure session cookie
-          const role = email.includes('admin') ? 'super_admin' : 'branch_manager';
-          document.cookie = `bin_misal_auth_session=${email}; path=/; max-age=86400; SameSite=Lax`;
-          document.cookie = `bin_misal_demo_role=${role}; path=/; max-age=86400; SameSite=Lax`;
-          
-          router.push(redirectTo);
-          router.refresh();
-          return;
+          if (password.length >= 6) {
+            const role = email.includes('admin') ? 'super_admin' : 'branch_manager';
+            document.cookie = `bin_misal_auth_session=${email}; path=/; max-age=86400; SameSite=Lax`;
+            document.cookie = `bin_misal_demo_role=${role}; path=/; max-age=86400; SameSite=Lax`;
+            
+            router.push(redirectTo);
+            router.refresh();
+            return;
+          }
         }
 
-        setErrorMsg(error.message || 'Invalid login credentials. Please check email and password.');
+        if (error.message?.includes('Failed to fetch')) {
+          setErrorMsg('Supabase URL is not configured on Vercel. Please set NEXT_PUBLIC_SUPABASE_URL in Vercel settings, or use admin@binmisal.com to test.');
+        } else {
+          setErrorMsg(error.message || 'Invalid login credentials. Please check email and password.');
+        }
         setLoading(false);
         return;
       }
