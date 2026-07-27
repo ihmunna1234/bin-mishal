@@ -1,14 +1,17 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import {
   Sparkles,
   ArrowRight,
   Search,
 } from 'lucide-react';
+import ServiceInquiryModal from '@/components/services/ServiceInquiryModal';
 
 export default function Hero() {
+  const [modalOpen, setModalOpen] = useState(false);
+
   return (
     <section className="relative overflow-hidden bg-slate-50 text-slate-900 pt-6 pb-16 lg:pt-8 lg:pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -52,15 +55,16 @@ export default function Hero() {
 
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
-                <a
-                  href="#services"
+                <button
+                  type="button"
+                  onClick={() => setModalOpen(true)}
                   className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-extrabold text-sm shadow-xl shadow-blue-500/25 transition-all transform hover:scale-[1.02] cursor-pointer"
                 >
                   <span>Book A Trip Now</span>
                   <div className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center">
                     <ArrowRight className="w-4 h-4 text-white" />
                   </div>
-                </a>
+                </button>
 
                 <a
                   href="#tracker"
@@ -93,6 +97,14 @@ export default function Hero() {
           </div>
         </div>
       </div>
+
+      {/* Interactive Service Booking Modal */}
+      <ServiceInquiryModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        serviceTitle="General Travel & Umrah Booking"
+        serviceCategory="Umrah"
+      />
     </section>
   );
 }

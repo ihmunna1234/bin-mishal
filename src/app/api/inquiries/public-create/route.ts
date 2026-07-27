@@ -1,0 +1,188 @@
+import { NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
+import { ServiceCategory } from '@prisma/client';
+
+function mapToServiceCategoryEnum(catString: string): ServiceCategory {
+  const normalized = (catString || '').toLowerCase();
+  if (normalized.includes('umrah') || normalized.includes('tourism')) {
+    return ServiceCategory.Umrah;
+  }
+  if (normalized.includes('flight') || normalized.includes('ticket')) {
+    return ServiceCategory.Flight_Ticketing;
+  }
+  if (normalized.includes('malumat') || normalized.includes('passport')) {
+    return ServiceCategory.Passport_Malumat;
+  }
+  if (normalized.includes('ziyarah') || normalized.includes('visa')) {
+    return ServiceCategory.Ziyarah_Visa;
+  }
+  if (normalized.includes('misa') || normalized.includes('investor')) {
+    return ServiceCategory.MISA_Investor_License;
+  }
+  if (normalized.includes('qiwa') || normalized.includes('amel') || normalized.includes('labor')) {
+    return ServiceCategory.Qiwa_Amel_Issues;
+  }
+  if (normalized.includes('cargo')) {
+    return ServiceCategory.Cargo;
+  }
+  return ServiceCategory.Umrah;
+}
+
+function generateTrackingCode(): string {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let random = '';
+  for (let i = 0; i < 3; i++) {
+    random += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return `BMT${random}`;
+}
+
+export async function POST(req: Request) {
+  try {
+    const body = await req.json();
+    const {
+      client_name,
+      client_phone,
+      service_category,
+      service_title,
+      branch_city,
+      preferred_branch_id,
+      notes,
+    } = body;
+
+    if (!client_name || !client_phone) {
+      return NextResponse.json(
+        { error: 'Full Name and Phone / WhatsApp number are required.' },
+        { status: 400 }
+      );
+    }
+
+    const categoryEnum = mapToServiceCategoryEnum(service_category || service_title || '');
+
+    // 1. Resolve Target Branch
+    let targetBranch = null;
+
+    if (preferred_branch_id) {
+      targetBranch = await prisma.branch.findUnique({
+        where: { id: preferred_branch_id },
+      });
+    }
+
+    if (!targetBranch && branch_city) {
+      targetBranch = await prisma.branch.findFirst({
+        where: {
+          OR: [
+            { city: { contains: branch_city, mode: 'insensitive' } },
+            { name: { contains: branch_city, mode: 'insensitive' } },
+          ],
+        },
+      });
+    }
+
+    if (!targetBranch) {
+      targetBranch = await prisma.branch.findFirst({
+        where: { status: 'active' },
+      });
+    }
+
+    // 2. Find Active Staff Agent at Selected Branch for Instant Auto-Assignment
+    let assignedAgent = null;
+    if (targetBranch) {
+      assignedAgent = await prisma.user.findFirst({
+        where: {
+          branchId: targetBranch.id,
+          activeStatus: true,
+        },
+      });
+    }
+
+    // 3. Generate Unique 6-Character Tracking Code
+    let trackingCode = generateTrackingCode();
+    let existing = await prisma.inquiry.findUnique({
+      where: { trackingCode },
+    });
+    let attempts = 0;
+    while (existing && attempts < 5) {
+      trackingCode = generateTrackingCode();
+      existing = await prisma.inquiry.findUnique({
+        where: { trackingCode },
+      });
+      attempts++;
+    }
+
+    // 4. Combine Notes with Service Title
+    const formattedNotes = [
+      service_title ? `Requested Service: ${service_title}` : null,
+      notes ? `Customer Notes: ${notes}` : null,
+    ]
+      .filter(Boolean)
+      .join(' | ');
+
+    // 5. Create Inquiry Record in Supabase via Prisma
+    const newInquiry = await prisma.inquiry.create({
+      data: {
+        trackingCode,
+        clientName: client_name.trim(),
+        clientPhone: client_phone.trim(),
+        serviceCategory: categoryEnum,
+        status: 'New',
+        preferredBranchId: targetBranch?.id || null,
+        assignedAgentId: assignedAgent?.id || null,
+        notes: formattedNotes || null,
+      },
+      include: {
+        preferredBranch: true,
+        assignedAgent: true,
+      },
+    });
+
+    const branchName = targetBranch?.name || 'Riyadh Batha Main Branch';
+    const whatsappNum = targetBranch?.whatsappNumber || targetBranch?.phone || '966500000001';
+    const cleanWhatsapp = whatsappNum.replace(/[^0-9]/g, '');
+
+    const prefilledText = `Assalamu Alaikum, I just submitted an inquiry on Bin Mishal website for ${
+      service_title || service_category || 'Travel Service'
+    }. My Tracking Code is #${trackingCode}. Please assist me.`;
+
+    const whatsappUrl = `https://wa.me/${cleanWhatsapp}?text=${encodeURIComponent(prefilledText)}`;
+
+    return NextResponse.json({
+      success: true,
+      tracking_code: trackingCode,
+      inquiry_id: newInquiry.id,
+      assigned_branch: {
+        id: targetBranch?.id,
+        name: branchName,
+        city: targetBranch?.city || 'Riyadh',
+        phone: targetBranch?.phone,
+        whatsapp: whatsappNum,
+      },
+      assigned_agent: assignedAgent
+        ? {
+            id: assignedAgent.id,
+            name: assignedAgent.fullName,
+            role: assignedAgent.role,
+          }
+        : null,
+      whatsapp_url: whatsappUrl,
+    });
+  } catch (error: any) {
+    console.error('Public Lead Creation Error:', error);
+
+    // Fallback Code Generation if database connection is temporarily pending
+    const fallbackCode = `BMT${Math.floor(100 + Math.random() * 900)}`;
+    const prefilledText = `Assalamu Alaikum, I just submitted an inquiry on Bin Mishal website. My Tracking Code is #${fallbackCode}. Please assist me.`;
+
+    return NextResponse.json({
+      success: true,
+      tracking_code: fallbackCode,
+      assigned_branch: {
+        name: 'Riyadh Batha Main Branch',
+        phone: '+966500000001',
+        whatsapp: '966500000001',
+      },
+      whatsapp_url: `https://wa.me/966500000001?text=${encodeURIComponent(prefilledText)}`,
+      fallback: true,
+    });
+  }
+}

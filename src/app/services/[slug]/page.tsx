@@ -22,6 +22,7 @@ import {
   Clock,
   Sparkles,
 } from 'lucide-react';
+import ServiceInquiryModal from '@/components/services/ServiceInquiryModal';
 
 interface ServiceDetail {
   slug: string;
@@ -42,7 +43,7 @@ const servicesData: Record<string, ServiceDetail> = {
     slug: 'umrah-tourism',
     title: 'Umrah Packages & Nusuk Permit Services',
     titleBn: '২০২৬ উমরাহ প্যাকেজ, হোটেল বুকিং ও নুশুক পারমিট',
-    category: 'Umrah & Tourism',
+    category: 'Umrah',
     icon: Moon,
     heroBg: 'from-[#e0f2fe] via-[#f0f9ff] to-white',
     description:
@@ -81,7 +82,7 @@ const servicesData: Record<string, ServiceDetail> = {
     slug: 'passport-malumat',
     title: 'Passport Malumat & Absher Information Update',
     titleBn: 'পাসপোর্ট তথ্য (মালুমাত) ও আবশের আপডেট সার্ভিস',
-    category: 'Passport Services',
+    category: 'Passport Malumat',
     icon: FileCheck,
     heroBg: 'from-[#e0f2fe] via-[#f0f9ff] to-white',
     description:
@@ -114,7 +115,7 @@ const servicesData: Record<string, ServiceDetail> = {
     slug: 'business-misa-license',
     title: 'MISA Foreign Investor Licensing & Company Setup',
     titleBn: 'এমআইএসএ (MISA) ইনভেস্টর লাইসেন্স ও সিআর রেজিস্ট্রেশন',
-    category: 'Business & Investment',
+    category: 'MISA Investor License',
     icon: Building2,
     heroBg: 'from-[#e0f2fe] via-[#f0f9ff] to-white',
     description:
@@ -144,7 +145,7 @@ const servicesData: Record<string, ServiceDetail> = {
     slug: 'visa-amel-services',
     title: 'Qiwa & Amel Sponsorship Transfer Resolution',
     titleBn: 'কিওয়া (Qiwa) কফিল পরিবর্তন ও স্পন্সরশিপ ট্রান্সফার',
-    category: 'Labor & Visas',
+    category: 'Qiwa/Amel Issues',
     icon: Briefcase,
     heroBg: 'from-[#e0f2fe] via-[#f0f9ff] to-white',
     description:
@@ -174,20 +175,45 @@ const servicesData: Record<string, ServiceDetail> = {
 export default function ServiceDetailPage({ params }: { params: { slug: string } }) {
   const service = servicesData[params.slug];
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
+  const [modalOpen, setModalOpen] = useState(false);
 
   if (!service) {
     const fallbackService = servicesData['umrah-tourism'];
-    return renderServiceDetail(fallbackService, openFaqIndex, setOpenFaqIndex);
+    return (
+      <ServiceDetailView
+        service={fallbackService}
+        openFaqIndex={openFaqIndex}
+        setOpenFaqIndex={setOpenFaqIndex}
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+      />
+    );
   }
 
-  return renderServiceDetail(service, openFaqIndex, setOpenFaqIndex);
+  return (
+    <ServiceDetailView
+      service={service}
+      openFaqIndex={openFaqIndex}
+      setOpenFaqIndex={setOpenFaqIndex}
+      modalOpen={modalOpen}
+      setModalOpen={setModalOpen}
+    />
+  );
 }
 
-function renderServiceDetail(
-  service: ServiceDetail,
-  openFaqIndex: number | null,
-  setOpenFaqIndex: (i: number | null) => void
-) {
+function ServiceDetailView({
+  service,
+  openFaqIndex,
+  setOpenFaqIndex,
+  modalOpen,
+  setModalOpen,
+}: {
+  service: ServiceDetail;
+  openFaqIndex: number | null;
+  setOpenFaqIndex: (i: number | null) => void;
+  modalOpen: boolean;
+  setModalOpen: (b: boolean) => void;
+}) {
   const Icon = service.icon;
 
   return (
@@ -220,17 +246,14 @@ function renderServiceDetail(
             </p>
 
             <div className="pt-4 flex flex-wrap gap-4">
-              <a
-                href={`https://wa.me/966501112233?text=Assalamu%20Alaikum,%20I%20need%20assistance%20with%20${encodeURIComponent(
-                  service.title
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                type="button"
+                onClick={() => setModalOpen(true)}
                 className="inline-flex items-center gap-2.5 px-8 py-4 rounded-full bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-extrabold text-xs shadow-lg shadow-blue-500/25 transition-transform hover:scale-105 cursor-pointer"
               >
                 <MessageSquare className="w-4 h-4 text-white" />
-                <span>Inquire on WhatsApp</span>
-              </a>
+                <span>Book & Assign Branch Employee</span>
+              </button>
 
               <a
                 href="tel:+966501112233"
@@ -332,6 +355,14 @@ function renderServiceDetail(
           </div>
         </div>
       </section>
+
+      {/* Service Inquiry & Branch Assignment Modal */}
+      <ServiceInquiryModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        serviceTitle={service.title}
+        serviceCategory={service.category}
+      />
     </div>
   );
 }

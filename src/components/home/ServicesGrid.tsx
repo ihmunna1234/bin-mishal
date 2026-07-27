@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import {
   Moon,
@@ -15,6 +15,7 @@ import {
   Sparkles,
   ExternalLink,
 } from 'lucide-react';
+import ServiceInquiryModal from '@/components/services/ServiceInquiryModal';
 
 const services = [
   {
@@ -97,6 +98,16 @@ const services = [
 ];
 
 export default function ServicesGrid() {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedTitle, setSelectedTitle] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
+
+  const openInquiryModal = (title: string, category: string) => {
+    setSelectedTitle(title);
+    setSelectedCategory(category);
+    setModalOpen(true);
+  };
+
   return (
     <section id="services" className="py-20 bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -163,24 +174,29 @@ export default function ServicesGrid() {
                     <ExternalLink className="w-3.5 h-3.5 text-slate-500" />
                   </Link>
 
-                  <a
-                    href={`https://wa.me/966501112233?text=Inquiry%20regarding%20${encodeURIComponent(
-                      service.title
-                    )}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full inline-flex items-center justify-center gap-2 py-3 px-5 rounded-full bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-extrabold text-xs shadow-md shadow-blue-500/20 transition-all"
+                  <button
+                    type="button"
+                    onClick={() => openInquiryModal(service.title, service.category)}
+                    className="w-full inline-flex items-center justify-center gap-2 py-3 px-5 rounded-full bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-extrabold text-xs shadow-md shadow-blue-500/20 transition-all cursor-pointer"
                   >
                     <MessageSquare className="w-4 h-4 text-white" />
-                    <span>Inquire on WhatsApp</span>
+                    <span>Inquire & Assign Branch</span>
                     <ArrowRight className="w-3.5 h-3.5" />
-                  </a>
+                  </button>
                 </div>
               </div>
             );
           })}
         </div>
       </div>
+
+      {/* Global Interactive Service Inquiry & Branch Assignment Modal */}
+      <ServiceInquiryModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        serviceTitle={selectedTitle}
+        serviceCategory={selectedCategory}
+      />
     </section>
   );
 }
